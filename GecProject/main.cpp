@@ -38,6 +38,7 @@ int main()
     sf::RectangleShape shape(sf::Vector2f(100,100));
     std::string textureName = "A.png";
     shape.setTexture(textureUtils.LoadTextureByName(textureName));
+    shape.setTexture(textureUtils.LoadTextureByName(textureName));
     // Clock required by the UI
     sf::Clock uiDeltaClock;
   
@@ -103,7 +104,7 @@ void DefineGUI()
    // ImGui::SliderFloat("Speed", &gAnimationSpeed, 0.01f, 0.3f);	// Slider from 0.0 to 1.0
 
     //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::Text("Application average %.3f ms/frame (%.f FPS)", 1000.0f / ImGui::GetIO().Framerate, frameRate);
+    ImGui::Text("Application average %.3f ms/frame (%.f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 
     ImGui::End();

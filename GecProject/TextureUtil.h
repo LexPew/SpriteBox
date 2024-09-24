@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
+#include <unordered_map>
 class TextureUtil
 {
 	//Call function to load texture from file path and return pointer with that texture, need to handle when we cant grab a texture file
@@ -13,9 +13,8 @@ class TextureUtil
 private:
 
 	//Texture Handling
-	std::string defaultWorkingPath = "Data/Textures/";	//This is the default directory for textures (Set to the data and textures folder)
-	std::vector<sf::Texture*> loadedTextures;	//Holds all loaded texture pointer to delete later
-	
+	std::string defaultWorkingPath = "Data/Textures/";	//This is the default directory for textures (Set to the data and textures folder)	
+	std::unordered_map<std::string, sf::Texture*> loadedTextures; //Holds all loaded texture pointers with a key to their filenames to delete later
 	//Error Handling
 	sf::Texture* errorTexture = new sf::Texture;
 	std::string errorTextureFileName = "Error.png";
@@ -25,7 +24,7 @@ public:
 	//Constructor assigns the error texture
 	TextureUtil() 
 	{
-		loadedTextures.push_back(errorTexture);
+		loadedTextures[errorTextureFileName] = errorTexture;
 		if (!errorTexture->loadFromFile(defaultWorkingPath + errorTextureFileName))
 		{
 			//This will result in instead of an error texture just the default shape colour being displayed
@@ -42,13 +41,24 @@ public:
 	//Loads a texture by its filename in the defaultWorkingPath
 	const sf::Texture* LoadTextureByName(const std::string& textureFileName)
 	{
+		//Check if we already have the texture loaded
+		auto textureMapTexture = loadedTextures.find(textureFileName);
+
+		if (textureMapTexture != loadedTextures.end())
+		{
+			std::cout << "TextureUtils: Attempted to load same texture twice : " + defaultWorkingPath + textureFileName;
+
+			return textureMapTexture->second;
+		}
+
 		//Create a new texture pointer to hold the texture
 		sf::Texture* textureToLoad = new sf::Texture;
+
 		//Try load from the file path
 		if (textureToLoad->loadFromFile(defaultWorkingPath + textureFileName))
 		{
 			//Succesfully loaded texture 
-			loadedTextures.push_back(textureToLoad);
+			loadedTextures[textureFileName] = textureToLoad;
 			return textureToLoad;
 		}
 		else
@@ -67,11 +77,12 @@ public:
 	//Loops through each held pointer in loadedTextures and deletes them
 	void UnloadAll()
 	{
-		sf::Texture* textureToUnload;
-		for (int i = 0; i < loadedTextures.size(); i++) 
+		//Delete all the second values (pointers) from loaded textures map
+		for (auto& pair : loadedTextures)
 		{
-			delete loadedTextures[i];
+			delete pair.second;
 		}
+		//Clear the map
 		loadedTextures.clear();
 	}
 };
