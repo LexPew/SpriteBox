@@ -135,18 +135,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="IMGUI\imgui-SFML.cpp" />
     <ClCompile Include="IMGUI\imgui.cpp" />
     <ClCompile Include="IMGUI\imgui_draw.cpp" />
     <ClCompile Include="IMGUI\imgui_tables.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PerformanceMetrics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RedirectCout.h" />
     <ClCompile Include="TextureUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="ExternalHeaders.h" />
+    <ClInclude Include="PerformanceMetrics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="TextureUtil.h" />
   </ItemGroup>

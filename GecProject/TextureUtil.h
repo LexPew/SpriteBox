@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
+#include <Windows.h>
 class TextureUtil
 {
 	//Call function to load texture from file path and return pointer with that texture, need to handle when we cant grab a texture file
@@ -18,6 +19,7 @@ private:
 	//Error Handling
 	sf::Texture* errorTexture = new sf::Texture;
 	std::string errorTextureFileName = "Error.png";
+	std::string commandLinePrefix = "--TextureUtils-- ";
 
 public:
 
@@ -27,8 +29,19 @@ public:
 		loadedTextures[errorTextureFileName] = errorTexture;
 		if (!errorTexture->loadFromFile(defaultWorkingPath + errorTextureFileName))
 		{
-			//This will result in instead of an error texture just the default shape colour being displayed
-			std::cout << "TextureUtils: Failed to load error texture!";
+			//If we fail to load the default error texture generate one from code and output an error message, if we fail tell user to reinstall files as something is very wrong if we fail all checks
+			sf::Image generatedErrorImage;
+			generatedErrorImage.create(100, 100, sf::Color(128, 0, 128, 255));
+			if (!errorTexture->loadFromImage(generatedErrorImage))
+			{
+				std::cout << commandLinePrefix << "Failed to generate error texture, something is very wrong :(";
+				MessageBoxA(nullptr, "!Please reinstall game files!", "ERROR--ERROR--ERROR", MB_ICONERROR);
+			}
+
+
+
+			std::cout << commandLinePrefix << "Failed to load error texture!\n";
+			DisplayTextureError(errorTextureFileName, defaultWorkingPath);
 		}
 	}
 
@@ -39,14 +52,14 @@ public:
 	}
 
 	//Loads a texture by its filename in the defaultWorkingPath
-	const sf::Texture* LoadTextureByName(const std::string& textureFileName)
+	sf::Texture* LoadTextureByName(const std::string& textureFileName)
 	{
 		//Check if we already have the texture loaded
 		auto textureMapTexture = loadedTextures.find(textureFileName);
 
 		if (textureMapTexture != loadedTextures.end())
 		{
-			std::cout << "TextureUtils: Attempted to load same texture twice : " + defaultWorkingPath + textureFileName;
+			std::cout << commandLinePrefix << "Attempted to load same texture twice : " + defaultWorkingPath + textureFileName << "\n";
 
 			return textureMapTexture->second;
 		}
@@ -66,7 +79,8 @@ public:
 			//Delete the pointer as we wont need it
 			delete textureToLoad;
 			//Output an error with the file path for easier debugging
-			std::cout << "TextureUtils: Failed to load texture : " + defaultWorkingPath + textureFileName;
+			std::cout << commandLinePrefix << "Failed to load texture : " + defaultWorkingPath + textureFileName << "\n";
+			DisplayTextureError(textureFileName, defaultWorkingPath);
 			//Return the default error texture
 			return errorTexture;
 
@@ -84,6 +98,13 @@ public:
 		}
 		//Clear the map
 		loadedTextures.clear();
+	}
+
+	//Display an error box with the texture path that is missing
+	void DisplayTextureError(std::string textureName, std::string texturePath)
+	{
+		std::string errorMessage = "Error failed to locate and load texture: " + texturePath + textureName;
+		MessageBoxA(nullptr, errorMessage.data(), commandLinePrefix.data(), MB_ICONHAND);
 	}
 };
 

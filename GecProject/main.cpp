@@ -9,10 +9,15 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Animation.h"
+#include "PerformanceMetrics.h"
 
 
 void DefineGUI();
 
+//Performance metrics
+PerformanceMetrics metrics;
+Animation animation;
 int main()
 {
     // Redirect cout to HAPI
@@ -35,10 +40,13 @@ int main()
     //Init TextureUtils 
     TextureUtil textureUtils;
     // Create a simple shape to draw and test texture utils
-    sf::RectangleShape shape(sf::Vector2f(100,100));
-    std::string textureName = "A.png";
-    shape.setTexture(textureUtils.LoadTextureByName(textureName));
-    shape.setTexture(textureUtils.LoadTextureByName(textureName));
+    sf::Sprite sprite;
+    std::string textureName = "Attack.png";
+
+    //Animation attackAnimation;
+    animation = Animation(textureUtils.LoadTextureByName(textureName), &sprite, 8);
+
+
     // Clock required by the UI
     sf::Clock uiDeltaClock;
   
@@ -60,8 +68,14 @@ int main()
                 break;
             }
         }        
+        sf::Time deltaTime = uiDeltaClock.restart();
+
+        //Animation Updates
+        animation.Update(deltaTime.asSeconds());
+        //animation.SetSpeed(animationSpeed);
+        metrics.Update(deltaTime.asSeconds());
         // ImGui must be updated each frame
-        ImGui::SFML::Update(window, uiDeltaClock.restart());
+        ImGui::SFML::Update(window, deltaTime);
 
         // The UI gets defined each time
         DefineGUI();
@@ -70,7 +84,7 @@ int main()
         window.clear();
        
         // Draw the shape
-        window.draw(shape);
+        window.draw(sprite);
 
         // UI needs drawing last
         ImGui::SFML::Render(window);
@@ -78,7 +92,7 @@ int main()
         window.display();
     }
 
-    std::cout << "Finished!" << std::endl;
+    //std::cout << "Finished!" << std::endl;
 
 	ImGui::SFML::Shutdown();
 
@@ -100,12 +114,22 @@ void DefineGUI()
  //   ImGui::Checkbox("Wireframe", &m_wireframe);	// A checkbox linked to a member variable
 
   //  ImGui::Checkbox("Cull Face", &m_cullFace);
+    static float animationSpeed{ 0 };
+    if(ImGui::SliderFloat("Speed", &animationSpeed, 0.f, 5.0f))
+    {
+        animation.SetSpeed(animationSpeed);
+    }// Slider from 0.0 to 1.0
+    static float fpsSmoothingFactor{ 0 };
 
-   // ImGui::SliderFloat("Speed", &gAnimationSpeed, 0.01f, 0.3f);	// Slider from 0.0 to 1.0
+    if (ImGui::SliderFloat("FPS Smoothing Factor", &fpsSmoothingFactor, 0.1f, .9f))
+    {
+        metrics.SetSmoothingFactor(fpsSmoothingFactor);
+    }// Slider from 0.0 to 1.0
 
     //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::Text("Application average %.3f ms/frame (%.f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Text("Application average %.3f ms/frame (%.f FPS)", 1000.0f / ImGui::GetIO().Framerate, metrics.GetAveragedFrameRate());
 
+    ImGui::PlotLines("Frame Rate Graph", metrics.framesPerSecondSamples, metrics.GetMaxSamples());
 
     ImGui::End();
 }
