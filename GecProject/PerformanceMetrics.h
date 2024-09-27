@@ -9,6 +9,7 @@ private:
 	int frames							{ 0 };	 //Increased every update call until reset when framesTimer reaches 1
 	float framesTimer					{ 100.0f }; //Timer that counts up to frameSmoothInterval via delta time
 	float smoothingFactor				{ .5f }; //Controls how smooth the fps value is
+	float frameSmoothIntervalStart		{ 0 };
 	float frameSmoothInterval			{ 0.2f };
 	//Sampled points
 	#define maxSamples 50
@@ -23,6 +24,7 @@ public:
 		{
 			framesPerSecondSamples[i] = 0;
 		}
+		frameSmoothIntervalStart = frameSmoothInterval;
 	}
 	void Update(float deltaTime)
 	{
@@ -57,6 +59,7 @@ public:
 	void SetSmoothingFactor(float newSmoothingFactor)
 	{
 		smoothingFactor = newSmoothingFactor;
+		frameSmoothInterval = frameSmoothIntervalStart * (1 + newSmoothingFactor);
 	}
 	int GetMaxSamples()
 	{

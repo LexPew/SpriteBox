@@ -105,16 +105,16 @@ void DefineGUI()
     // Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    ImGui::Begin("GEC");				// Create a window called "3GP" and append into it.
+    ImGui::Begin("Animation Test and Performance Metrics");				// Create a window called "3GP" and append into it.
 
-    ImGui::Text("Some Text.");	      	// Display some text (you can use a format strings too)	
+    //ImGui::Text("Some Text.");	      	// Display some text (you can use a format strings too)	
 
-    ImGui::Button("Button");			// Buttons return true when clicked (most widgets return true when edited/activated)
+    //ImGui::Button("Button");			// Buttons return true when clicked (most widgets return true when edited/activated)
     
  //   ImGui::Checkbox("Wireframe", &m_wireframe);	// A checkbox linked to a member variable
 
   //  ImGui::Checkbox("Cull Face", &m_cullFace);
-    static float animationSpeed{ 0 };
+    static float animationSpeed{ 1 };
     if(ImGui::SliderFloat("Speed", &animationSpeed, 0.f, 5.0f))
     {
         animation.SetSpeed(animationSpeed);

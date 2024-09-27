@@ -52,6 +52,7 @@ public:
 		targetSprite->setTexture(*spriteSheet);
 		targetSprite->setTextureRect(sf::IntRect(0, 0, spriteSizeX, spriteSizeY));
 	}
+
 	void PlayNextFrame()
 	{
 		//If we have reached the last frame reset counter to start frame
