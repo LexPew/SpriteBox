@@ -146,6 +146,7 @@
     <ClCompile Include="PerformanceMetrics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RedirectCout.h" />
+    <ClCompile Include="SFMLGraphics.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextureUtil.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="PerformanceMetrics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SFMLGraphics.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextureUtil.h" />
   </ItemGroup>

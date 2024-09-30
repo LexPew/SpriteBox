@@ -11,8 +11,8 @@
 #include <SFML/Graphics.hpp>
 #include "Animation.h"
 #include "PerformanceMetrics.h"
-
-
+#include "IGraphics.h"
+#include "SFMLGraphics.h"
 void DefineGUI();
 
 //Performance metrics
@@ -32,21 +32,23 @@ int main()
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
     // Create the SFML window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "GEC Milestone 1 Example");
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 600), "GEC Milestone 1 Example");
 
     // Set up ImGui (the UI library)
-    ImGui::SFML::Init(window);    
+    ImGui::SFML::Init(*window);    
 
     //Init TextureUtils 
-    TextureUtil textureUtils;
+    //TextureUtil textureUtils;
     // Create a simple shape to draw and test texture utils
     sf::Sprite sprite;
     std::string textureName = "Attack.png";
 
+
+
+    IGraphics *graphicsHandler = new SFMLGraphics(window);
+
     //Animation attackAnimation;
-    animation = Animation(textureUtils.LoadTextureByName(textureName), &sprite, 8);
-
-
+    animation = Animation(static_cast<sf::Texture*>(graphicsHandler->TryLoadTextureByFileName(textureName)), &sprite, 8);
     // Clock required by the UI
     sf::Clock uiDeltaClock;
   
@@ -95,7 +97,7 @@ int main()
     //std::cout << "Finished!" << std::endl;
 
 	ImGui::SFML::Shutdown();
-
+    delete graphicsHandler;
     return 0;
 }
 
