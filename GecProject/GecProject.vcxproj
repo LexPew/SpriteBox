@@ -136,7 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="IGraphics.cpp" />
     <ClCompile Include="IMGUI\imgui-SFML.cpp" />
     <ClCompile Include="IMGUI\imgui.cpp" />
     <ClCompile Include="IMGUI\imgui_draw.cpp" />
@@ -146,15 +146,21 @@
     <ClCompile Include="PerformanceMetrics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RedirectCout.h" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextureUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="ExternalHeaders.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="IGraphics.h" />
     <ClInclude Include="PerformanceMetrics.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextureUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GecProject.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
