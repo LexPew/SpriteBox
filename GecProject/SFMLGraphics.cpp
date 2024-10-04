@@ -20,8 +20,9 @@ bool SFMLGraphics::CreateSprite(std::string& spriteId)
 
 	return false;
 }
-bool SFMLGraphics::RenderSprite(std::string& spriteId, int xPosition, int yPosition)
+bool SFMLGraphics::RenderSprite(std::string& spriteId, float xPosition, float yPosition, int rows, int frame)
 {
+
 	//First we try to find the sprite to render it, if we are unsucesful return false
 	auto spriteToFind = loadedSprites.find(spriteId);
 	if (spriteToFind == loadedSprites.end())
@@ -35,6 +36,8 @@ bool SFMLGraphics::RenderSprite(std::string& spriteId, int xPosition, int yPosit
 	}
 	//Since we found a sprite, draw it to the window at the requested position
 	spriteToFind->second->setPosition(xPosition, yPosition);
+	int ySize = (loadedTextures[spriteId]->getSize().y / rows);
+	spriteToFind->second->setTextureRect(sf::IntRect(0, ySize * frame , loadedTextures[spriteId]->getSize().x, ySize));
 	renderWindow->draw(*spriteToFind->second);
 	return true;
 }
@@ -116,5 +119,6 @@ void SFMLGraphics::DisplayTextureError(std::string textureName, std::string text
 	std::string errorMessage = "Error failed to locate and load texture: " + texturePath + textureName;
 	//MessageBoxA(nullptr, errorMessage.data(), commandLinePrefix.data(), MB_ICONHAND);
 }
+
 
 

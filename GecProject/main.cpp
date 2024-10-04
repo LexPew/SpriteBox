@@ -22,7 +22,8 @@ void DefineGUI();
 
 //Performance metrics
 PerformanceMetrics metrics;
-Animation animation;
+GameObject newGameObject;
+GameObject object2;
 int main()
 {
     // Redirect cout to HAPI
@@ -50,8 +51,13 @@ int main()
 
     //std::string textureName = "Attack.png";
 
-    GameObject newGameObject("TestObject", graphicsHandler);
-    newGameObject.AttachComponent(std::make_shared<SpriteRenderer>());
+    newGameObject = GameObject("TestObject", graphicsHandler);
+    newGameObject.GetComponent<TransformComponent>()->SetPosition(Vector2(10, 10));
+    newGameObject.AttachComponent(std::make_shared<SpriteRenderer>("Attack.png", 8, 0));
+
+    object2 = GameObject("TestObject6", graphicsHandler);
+    object2.GetComponent<TransformComponent>()->SetPosition(Vector2(50, 10));
+    object2.AttachComponent(std::make_shared<SpriteRenderer>("A.png", 1, 0));
 
     //Animation attackAnimation;
     //animation = Animation(static_cast<sf::Texture*>(graphicsHandler->TryLoadTextureByFileName(textureName)), &sprite, 8);
@@ -78,13 +84,11 @@ int main()
         }        
         sf::Time deltaTime = uiDeltaClock.restart();
 
-        //Animation Updates
-        animation.Update(deltaTime.asSeconds());
-        //animation.SetSpeed(animationSpeed);
         metrics.Update(deltaTime.asSeconds());
         // ImGui must be updated each frame
         ImGui::SFML::Update(window, deltaTime);
         newGameObject.Update(deltaTime.asSeconds());
+        object2.Update(deltaTime.asSeconds());
         // The UI gets defined each time
         DefineGUI();
 
@@ -95,6 +99,7 @@ int main()
         //window.draw(sprite);
         //graphicsHandler->RenderSprite(0,10,10);
                  newGameObject.Render();
+                 object2.Render();
         // UI needs drawing last
         ImGui::SFML::Render(window);
 
@@ -123,10 +128,14 @@ void DefineGUI()
  //   ImGui::Checkbox("Wireframe", &m_wireframe);	// A checkbox linked to a member variable
 
   //  ImGui::Checkbox("Cull Face", &m_cullFace);
+    static float xPosition{ 10 };
+    if (ImGui::SliderFloat("XPosition", &xPosition, 0.f, 1000.f)) {
+        newGameObject.GetComponent<TransformComponent>()->SetPosition(Vector2(xPosition, 10));
+    }
     static float animationSpeed{ 1 };
     if(ImGui::SliderFloat("Speed", &animationSpeed, 0.f, 5.0f))
     {
-        animation.SetSpeed(animationSpeed);
+        newGameObject.GetComponent<SpriteRenderer>()->SetSpeed(animationSpeed);
     }// Slider from 0.0 to 1.0
     static float fpsSmoothingFactor{ 0 };
 

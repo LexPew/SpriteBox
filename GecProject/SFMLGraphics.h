@@ -26,12 +26,13 @@ public:
 	}
 	// Inherited via IGraphics
 	bool CreateSprite(std::string& spriteId) override;
-	bool RenderSprite(std::string& spriteId, int xPosition, int yPosition) override;
+	bool RenderSprite(std::string& spriteId, float xPosition, float yPosition, int rows, int frame) override;
 public:
 	// Inherited via IGraphics
 	void TryLoadErrorTexture() override;
 	void* TryLoadTextureByFileName(std::string& textureFileName) override;
 	void UnloadAll() override;
 	void DisplayTextureError(std::string textureName, std::string texturePath);
+
 };
 

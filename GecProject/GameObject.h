@@ -15,6 +15,7 @@ private:
 	std::string name{"Null"}; //This is the name for our game object and will be used in the scene to identify it
 	std::unordered_map<std::string, std::shared_ptr<Component>> attachedComponents; //This map holds the components as pointers with their name as the key
 public:
+	GameObject() {};
 	GameObject(std::string gameObjectName, IGraphics* graphicsHandlerInput)
 	{
 		graphicsHandler = graphicsHandlerInput;

@@ -12,11 +12,11 @@ public:
 	{
 		position = newPosition;
 	}
-	Vector2& GetPosition()
+	Vector2 GetPosition()
 	{
 		return position;
 	}
-	Vector2 SetPosition(Vector2 newPosition)
+	void SetPosition(Vector2 newPosition)
 	{
 		position = newPosition;
 	}

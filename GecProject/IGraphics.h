@@ -12,8 +12,10 @@ public:
 
 	//Handles creating a sprite, pass the SpriteId(Aka the filepath name in default working path)
 	virtual bool CreateSprite(std::string& spriteId) = 0;
-	//Handles rendering a sprite at the given location and frame number
-	virtual bool RenderSprite(std::string& spriteId, int xPosition, int yPosition) = 0;
+	//Handles rendering a sprite at the given location
+	virtual bool RenderSprite(std::string& spriteId, float xPosition, float yPosition, int rows, int frame) = 0;
+
+
 	public:
 	//--Texture Handling--
 	
