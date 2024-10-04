@@ -10,7 +10,7 @@ private:
 	sf::RenderWindow *renderWindow;
 
 	std::unordered_map<std::string, sf::Texture*> loadedTextures; //Holds all loaded texture pointers with a key to their filenames to delete later
-	std::unordered_map<unsigned int, sf::Sprite*> loadedSprites; // Holds all of the loaded sprites
+	std::unordered_map<std::string, sf::Sprite*> loadedSprites; // Holds all of the loaded sprites
 	//Error Texture
 	sf::Texture* errorTexture = new sf::Texture;
 	std::string commandLinePrefix = "--SFMLGraphics-- ";
@@ -25,8 +25,8 @@ public:
 		UnloadAll();
 	}
 	// Inherited via IGraphics
-	bool CreateSprite(unsigned int objectId, std::string& textureName) override;
-	void RenderSprite(unsigned int objectId, int xPosition, int yPosition) override;
+	bool CreateSprite(std::string& spriteId) override;
+	bool RenderSprite(std::string& spriteId, int xPosition, int yPosition) override;
 public:
 	// Inherited via IGraphics
 	void TryLoadErrorTexture() override;

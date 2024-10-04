@@ -2,7 +2,6 @@
     GecProject - For GEC students to use as a base for their projects.
     Already has SFML linked and ImGui set up.
 */
-
 #include "ExternalHeaders.h"
 #include "RedirectCout.h"
 #include "TextureUtil.h"
@@ -13,6 +12,12 @@
 #include "PerformanceMetrics.h"
 #include "IGraphics.h"
 #include "SFMLGraphics.h"
+
+//GameObject related
+#include "GameObject.h"
+#include "TransformComponent.h"
+#include "SpriteRenderer.h"
+
 void DefineGUI();
 
 //Performance metrics
@@ -32,23 +37,24 @@ int main()
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
     // Create the SFML window
-    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 600), "GEC Milestone 1 Example");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "GEC Milestone 1 Example");
 
     // Set up ImGui (the UI library)
-    ImGui::SFML::Init(*window);    
+    ImGui::SFML::Init(window);    
 
     //Init TextureUtils 
     //TextureUtil textureUtils;
-    // Create a simple shape to draw and test texture utils
-    sf::Sprite sprite;
-    std::string textureName = "Attack.png";
 
 
+    IGraphics* graphicsHandler = new SFMLGraphics(&window);
 
-    IGraphics *graphicsHandler = new SFMLGraphics(window);
+    //std::string textureName = "Attack.png";
+
+    GameObject newGameObject("TestObject", graphicsHandler);
+    newGameObject.AttachComponent(std::make_shared<SpriteRenderer>());
 
     //Animation attackAnimation;
-    animation = Animation(static_cast<sf::Texture*>(graphicsHandler->TryLoadTextureByFileName(textureName)), &sprite, 8);
+    //animation = Animation(static_cast<sf::Texture*>(graphicsHandler->TryLoadTextureByFileName(textureName)), &sprite, 8);
     // Clock required by the UI
     sf::Clock uiDeltaClock;
   
@@ -78,7 +84,7 @@ int main()
         metrics.Update(deltaTime.asSeconds());
         // ImGui must be updated each frame
         ImGui::SFML::Update(window, deltaTime);
-
+        newGameObject.Update(deltaTime.asSeconds());
         // The UI gets defined each time
         DefineGUI();
 
@@ -86,8 +92,9 @@ int main()
         window.clear();
        
         // Draw the shape
-        window.draw(sprite);
-
+        //window.draw(sprite);
+        //graphicsHandler->RenderSprite(0,10,10);
+                 newGameObject.Render();
         // UI needs drawing last
         ImGui::SFML::Render(window);
 

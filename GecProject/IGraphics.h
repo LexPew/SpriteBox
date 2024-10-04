@@ -10,10 +10,10 @@ protected:
 public:
 	//--Sprite Handling--
 
-	//Handles creating a sprite with an input texture name to load and then output the Sprite
-	virtual bool CreateSprite(unsigned int objectId, std::string& textureName) = 0;
+	//Handles creating a sprite, pass the SpriteId(Aka the filepath name in default working path)
+	virtual bool CreateSprite(std::string& spriteId) = 0;
 	//Handles rendering a sprite at the given location and frame number
-	virtual void RenderSprite(unsigned int objectId, int xPosition, int yPosition) = 0;
+	virtual bool RenderSprite(std::string& spriteId, int xPosition, int yPosition) = 0;
 	public:
 	//--Texture Handling--
 	

@@ -2,27 +2,41 @@
 #include <iostream>
 
 
-bool SFMLGraphics::CreateSprite(unsigned int objectId, std::string& textureName)
+bool SFMLGraphics::CreateSprite(std::string& spriteId)
 {
 	//First check if we already have a sprite created that is associated with the objects ID
-	auto spriteToFind = loadedSprites.find(objectId);
+	auto spriteToFind = loadedSprites.find(spriteId);
 
 	//If we have already created a sprite for this object Id return false with an erorr
 	if (spriteToFind != loadedSprites.end()) {
-		std::cout << commandLinePrefix << "Attempted to create a duplicate sprite for object: " << objectId;
+		std::cout << commandLinePrefix << "Attempted to create a duplicate sprite for object: " << spriteId;
 		return false;
 	}
 	//If we haven't already created a sprite for this object try to create one and loaded the texture, also add to our sprite map
 	sf::Sprite* newSprite = new sf::Sprite();
-	loadedSprites[objectId] = newSprite;
+	loadedSprites[spriteId] = newSprite;
 	//Cast from void* to sf::texture* then deref(Maybe not best practice but fuck it)
-	newSprite->setTexture(*static_cast<sf::Texture*>(TryLoadTextureByFileName(textureName)));
+	newSprite->setTexture(*static_cast<sf::Texture*>(TryLoadTextureByFileName(spriteId)));
 
 	return false;
 }
-void SFMLGraphics::RenderSprite(unsigned int objectId, int xPosition, int yPosition)
+bool SFMLGraphics::RenderSprite(std::string& spriteId, int xPosition, int yPosition)
 {
-
+	//First we try to find the sprite to render it, if we are unsucesful return false
+	auto spriteToFind = loadedSprites.find(spriteId);
+	if (spriteToFind == loadedSprites.end())
+	{
+		std::cout << commandLinePrefix << "No sprite assigned to object: " << spriteId;
+		//Create the sprite if we havent one assigned to the id yet, if it fails return false
+		if (!CreateSprite(spriteId))
+		{
+			return false;
+		}
+	}
+	//Since we found a sprite, draw it to the window at the requested position
+	spriteToFind->second->setPosition(xPosition, yPosition);
+	renderWindow->draw(*spriteToFind->second);
+	return true;
 }
 
 //Tries to load the error texture
