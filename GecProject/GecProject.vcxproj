@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="EditorGUI.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IGraphics.cpp" />
     <ClCompile Include="IMGUI\imgui-SFML.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="PerformanceMetrics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RedirectCout.h" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SFMLGraphics.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
@@ -159,12 +161,14 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="EditorGUI.h" />
     <ClInclude Include="ExternalHeaders.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="PerformanceMetrics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="SFMLGraphics.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteRenderer.h" />

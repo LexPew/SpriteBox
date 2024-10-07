@@ -19,21 +19,14 @@ bool GameObject::AttachComponent(std::shared_ptr<Component> component)
 	}
 	
 }
-/*/Returns a component if attached
-std::shared_ptr<Component> GameObject::GetComponent(std::string component)
+void GameObject::Start()
 {
-	auto attachedComponentToFind = attachedComponents.find(component);
-
-	//If we have this already got this component attached then dont add it 
-	if (attachedComponentToFind == attachedComponents.end())
+	//Loop through every component and call the start function
+	for (auto i = attachedComponents.begin(); i != attachedComponents.end(); i++)
 	{
-		return attachedComponents[component];
+		i->second->Start();
 	}
-	else
-	{
-		return nullptr;
-	}
-}*/
+}
 //Runs the update function on each attached component.
 void GameObject::Update(float deltaTime)
 {
@@ -49,6 +42,6 @@ void GameObject::Render()
 	//Loop through every component and call the Render function
 	for (auto i = attachedComponents.begin(); i != attachedComponents.end(); i++)
 	{
-		i->second->Render(*graphicsHandler);
+		i->second->Render();
 	} 
 }

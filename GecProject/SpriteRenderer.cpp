@@ -16,7 +16,7 @@ void SpriteRenderer::Update(float deltaTime)
 	}
 }
 
-void SpriteRenderer::Render(IGraphics& graphicsHandler)
+void SpriteRenderer::Render()
 {
 	TransformComponent& transfrom = *owner->GetComponent<TransformComponent>();
 	graphicsHandler.RenderSprite(spriteId, transfrom.GetPosition().x, transfrom.GetPosition().y, spriteSheetRows,spriteSheetCurrentFrame);
@@ -34,4 +34,8 @@ void SpriteRenderer::PlayNextFrame()
 
 		spriteSheetCurrentFrame++;
 	}
+}
+
+void SpriteRenderer::Start()
+{
 }

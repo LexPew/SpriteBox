@@ -11,24 +11,30 @@ class Component;
 class GameObject
 {
 private:
-	IGraphics* graphicsHandler{ nullptr };
-	std::string name{"Null"}; //This is the name for our game object and will be used in the scene to identify it
-	std::unordered_map<std::string, std::shared_ptr<Component>> attachedComponents; //This map holds the components as pointers with their name as the key
+	std::string gameObjectName{"GameObject"}; //This is the gameobjects name and will be used to identify it, e.g for a scene search "Null" would return this
+	std::unordered_map<std::string, std::shared_ptr<Component>> attachedComponents; //Attached components holds all current components associated with this gameobject, by their string name and a shared ptr
 public:
-	GameObject() {};
-	GameObject(std::string gameObjectName, IGraphics* graphicsHandlerInput)
+	//Constructors (Gameobjects are assigned a transform component by default
+	GameObject()
 	{
-		graphicsHandler = graphicsHandlerInput;
-		name = gameObjectName;
-		//Attach a transform component by default
+		AttachComponent(std::make_shared<TransformComponent>());
+	};
+	GameObject(std::string _gameObjectName)
+	{
+		gameObjectName = _gameObjectName;
+
 		AttachComponent(std::make_shared<TransformComponent>());
 	}
-	//Attaches a new component to the class if it doesnt already exist in the components map. Returns true/false depending on whether it was succesfull
-	bool AttachComponent(std::shared_ptr<Component> component);
 
-	// Returns a component if attached
-	template <typename T>
-	inline std::shared_ptr<T> GetComponent()
+	//Tries to attach a component, returns bool whether succesfull
+	bool AttachComponent(std::shared_ptr<Component> component);
+	const std::string& GetName()
+	{
+		return gameObjectName;
+	}
+	//Returns a component T if the search was succesfull
+	template <typename T> inline
+	std::shared_ptr<T> GetComponent()
 	{
 		std::shared_ptr<T> result = nullptr;
 		for (const auto& pair : attachedComponents)
@@ -42,10 +48,16 @@ public:
 		return result;
 	}
 
+	// Get all components (returns by reference)
+	const std::unordered_map<std::string, std::shared_ptr<Component>>& GetComponents() const
+	{
+		return attachedComponents;
+	}
 
-	//Game Logic functions
+	//Game logic funcs
+	void Start();
 
-	void Update(float deltaTime);
+	void Update(float deltaTime);//Update is run every frame
 
-	void Render();
+	void Render();  //Render is ran every frame after update
 };

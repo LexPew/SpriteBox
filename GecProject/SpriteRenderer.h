@@ -1,8 +1,11 @@
 #pragma once
 #include "Component.h"
+
+class IGraphics;
 class SpriteRenderer : public Component
 {
 private:
+	IGraphics& graphicsHandler;
 	//Default to error
 	std::string spriteId{ "Error.png" };
 	int spriteSheetRows{ 1 };
@@ -22,14 +25,14 @@ private:
 public:
 
 	//SpriteRenderer() {};
-	SpriteRenderer(std::string _SpriteId, int _spriteSheetRows, int _spriteSheetStartFrame)
+	SpriteRenderer(std::string _SpriteId, int _spriteSheetRows, int _spriteSheetStartFrame, IGraphics& _graphicsHandler) : graphicsHandler(_graphicsHandler)
 	{
 		UpdateCurrentSprite(_SpriteId, _spriteSheetRows, _spriteSheetStartFrame);
 	}
 
-	virtual std::string GetType() override { return "SpriteRenderer"; }
+	//virtual std::string GetType() override { return "SpriteRenderer"; }
 	virtual void Update(float deltaTime) override;
-	virtual void Render(IGraphics& graphicsHandler) override;
+	virtual void Render() override;
 	bool UpdateCurrentSprite(std::string& _SpriteId, int _spriteSheetRows, int _spriteSheetStartFrame)
 	{
 		//Checks to ensure we have entered valid data
@@ -46,12 +49,34 @@ public:
 		}
 
 	}
+
+	//Getters and Setters
+	std::string& GetSpriteID()
+	{
+		return spriteId;
+	}
+	float GetSpeed()
+	{
+		return animationSpeedMultiplier;
+	}
 	void SetSpeed(float animationSpeed)
 	{
 		animationSpeedMultiplier = animationSpeed;
 	}
+	bool GetPlayState()
+	{
+		return play;
+	}
+	void SetPlayState(bool state)
+	{
+		play = state;
+	}
 private:
 	void PlayNextFrame();
+
+
+	// Inherited via Component
+	virtual void Start() override;
 
 };
 

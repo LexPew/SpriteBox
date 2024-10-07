@@ -1,24 +1,35 @@
 #pragma once
 #include <string>
-
-class IGraphics;
+#include <typeinfo>
 class GameObject;
 
 class Component
 {
 protected:
-	GameObject* owner;
+	GameObject* owner{ nullptr };
 public:
 	virtual ~Component() = default;
-	//Returns the identifier for this component, e.g Transform, Sprite, etc
 
-	virtual std::string GetType() = 0;
+	std::string GetType() 	//Returns the identifier for this component, e.g Transform, Sprite, etc
+	{
+		//First we get the typeId of this
+		std::string type = typeid(*this).name();
+		//Then we need to strip "class " from the start of it or it will return "class Componenet"
+		std::string prefix = "class ";
+		if (type.find(prefix) == 0)  // If "class " is found at the start of the type name
+		{
+			return type.substr(prefix.size());
+		}
+		return type;
+	};
 	
-	virtual void Update(float deltaTime) = 0;
+	virtual void Start() = 0;
 
-	virtual void Render(IGraphics& graphicsHandler) = 0;
+	virtual void Update(float deltaTime) = 0; //Update is run every frame
 
-	void SetOwner(GameObject* gameObject)
+	virtual void Render() = 0; //Render is ran every frame after update
+
+	void SetOwner(GameObject* gameObject) //Sets the owner of this component
 	{
 		this->owner = gameObject;
 	}

@@ -17,13 +17,18 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 #include "SpriteRenderer.h"
-
+#include "Scene.h"
+#include "EditorGUI.h"
 void DefineGUI();
+
+void ObjectPropertiesGUI();
 
 //Performance metrics
 PerformanceMetrics metrics;
 GameObject newGameObject;
 GameObject object2;
+Scene loadedScene;
+GameObject* selectedGameObject = nullptr;
 int main()
 {
     // Redirect cout to HAPI
@@ -38,36 +43,34 @@ int main()
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
     // Create the SFML window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "GEC Milestone 1 Example");
+    sf::RenderWindow window(sf::VideoMode(1000, 800), "GEC Engine");
 
-    // Set up ImGui (the UI library)
-    ImGui::SFML::Init(window);    
-
-    //Init TextureUtils 
-    //TextureUtil textureUtils;
-
+    srand(time(nullptr));
 
     IGraphics* graphicsHandler = new SFMLGraphics(&window);
 
     //std::string textureName = "Attack.png";
 
-    newGameObject = GameObject("TestObject", graphicsHandler);
+    newGameObject = GameObject("Retest");
+
     newGameObject.GetComponent<TransformComponent>()->SetPosition(Vector2(10, 10));
-    newGameObject.AttachComponent(std::make_shared<SpriteRenderer>("Attack.png", 8, 0));
+    newGameObject.AttachComponent(std::make_shared<SpriteRenderer>("Attack.png", 8, 0, *graphicsHandler));
 
-    object2 = GameObject("TestObject6", graphicsHandler);
+    object2 = GameObject("TestObject6");
     object2.GetComponent<TransformComponent>()->SetPosition(Vector2(50, 10));
-    object2.AttachComponent(std::make_shared<SpriteRenderer>("A.png", 1, 0));
-
-    //Animation attackAnimation;
-    //animation = Animation(static_cast<sf::Texture*>(graphicsHandler->TryLoadTextureByFileName(textureName)), &sprite, 8);
-    // Clock required by the UI
+    object2.AttachComponent(std::make_shared<SpriteRenderer>("A.png", 1, 0, *graphicsHandler));
+    std::cout << "TYPE TEST: " << typeid(*object2.GetComponent<TransformComponent>()).name() << "\n";
+    loadedScene = Scene(graphicsHandler);
+    loadedScene.AddGameObject(&newGameObject);
+    loadedScene.AddGameObject(&object2);
+    EditorGUI editorGui(window, loadedScene);
     sf::Clock uiDeltaClock;
   
 
 
     while (window.isOpen())
     {
+        //--EVENT HANDLING-- 
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -78,76 +81,39 @@ int main()
             case sf::Event::Closed:
                 window.close();
                 break;
+            case sf::Event::Resized:
+                window.setSize({ event.size.width, event.size.height });
             default:
                 break;
             }
-        }        
-        sf::Time deltaTime = uiDeltaClock.restart();
+        }
+
+        //--UPDATE--
+
+        sf::Time deltaTime = uiDeltaClock.restart(); //Calculates deltaTime aka time between last frame and this frame
 
         metrics.Update(deltaTime.asSeconds());
-        // ImGui must be updated each frame
         ImGui::SFML::Update(window, deltaTime);
-        newGameObject.Update(deltaTime.asSeconds());
-        object2.Update(deltaTime.asSeconds());
-        // The UI gets defined each time
-        DefineGUI();
+        editorGui.Update();
+        loadedScene.Update(deltaTime.asSeconds());
 
-        // Clear the window
-        window.clear();
-       
-        // Draw the shape
-        //window.draw(sprite);
-        //graphicsHandler->RenderSprite(0,10,10);
-                 newGameObject.Render();
-                 object2.Render();
-        // UI needs drawing last
-        ImGui::SFML::Render(window);
+        //--RENDERING--
 
-        window.display();
+        window.clear(); //Clear window before drawing new sprites
+
+        loadedScene.Render();
+        editorGui.Render();
+
+        window.display(); //Display all rendered objects
     }
 
     //std::cout << "Finished!" << std::endl;
-
+    loadedScene.Cleanup();
 	ImGui::SFML::Shutdown();
     delete graphicsHandler;
+
     return 0;
 }
 
-// Use IMGUI for a simple on screen GUI
-void DefineGUI()
-{
-    // Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    ImGui::Begin("Animation Test and Performance Metrics");				// Create a window called "3GP" and append into it.
 
-    //ImGui::Text("Some Text.");	      	// Display some text (you can use a format strings too)	
-
-    //ImGui::Button("Button");			// Buttons return true when clicked (most widgets return true when edited/activated)
-    
- //   ImGui::Checkbox("Wireframe", &m_wireframe);	// A checkbox linked to a member variable
-
-  //  ImGui::Checkbox("Cull Face", &m_cullFace);
-    static float xPosition{ 10 };
-    if (ImGui::SliderFloat("XPosition", &xPosition, 0.f, 1000.f)) {
-        newGameObject.GetComponent<TransformComponent>()->SetPosition(Vector2(xPosition, 10));
-    }
-    static float animationSpeed{ 1 };
-    if(ImGui::SliderFloat("Speed", &animationSpeed, 0.f, 5.0f))
-    {
-        newGameObject.GetComponent<SpriteRenderer>()->SetSpeed(animationSpeed);
-    }// Slider from 0.0 to 1.0
-    static float fpsSmoothingFactor{ 0 };
-
-    if (ImGui::SliderFloat("FPS Smoothing Factor", &fpsSmoothingFactor, 0.1f, .9f))
-    {
-        metrics.SetSmoothingFactor(fpsSmoothingFactor);
-    }// Slider from 0.0 to 1.0
-
-    //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::Text("Application average %.3f ms/frame (%.f FPS)", 1000.0f / ImGui::GetIO().Framerate, metrics.GetAveragedFrameRate());
-
-    ImGui::PlotLines("Frame Rate Graph", metrics.framesPerSecondSamples, metrics.GetMaxSamples());
-
-    ImGui::End();
-}

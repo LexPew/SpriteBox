@@ -23,11 +23,15 @@ public:
 
 
 	// Inherited via Component
-	virtual std::string GetType() override { return std::string("Transform"); };
+	//virtual std::string GetType() override { return std::string("Transform"); };
 
 	virtual void Update(float deltaTime) override {};
 
-	virtual void Render(IGraphics& graphicsHandler) override {};
+	virtual void Render() override {};
+
+
+	// Inherited via Component
+	virtual void Start() override;
 
 };
 
