@@ -55,6 +55,9 @@ public:
 	{
 		return spriteId;
 	}
+	void SetSpriteID(std::string newSpriteId) {
+		spriteId = newSpriteId;
+	}
 	float GetSpeed()
 	{
 		return animationSpeedMultiplier;

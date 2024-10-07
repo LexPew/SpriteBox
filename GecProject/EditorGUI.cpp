@@ -67,9 +67,24 @@ void EditorGUI::DisplayPropertiesGUI()
 		{
 			if (ImGui::CollapsingHeader((currentlySelectedGameObject->GetName() + " properties").c_str()))
 			{
-				//List each components
+
+				ImGui::PushStyleColor(ImGuiCol_Text, TealGreen);
+
+				//Button to remove current component
+				if (ImGui::Button("Add Component"))
+				{
+					currentlySelectedGameObject->AttachComponent(std::make_shared<TransformComponent>(Vector2(0, 0)));
+					//when trying to access it
+
+				}
+
+				ImGui::PopStyleColor();
+
+
+				//List each component
 				for (auto component : currentlySelectedGameObject->GetComponents())
 				{
+
 					std::shared_ptr<Component>& comp = component.second;
 					std::string type = component.second->GetType();
 					//ImGui::Text(component.second->GetType().c_str());
@@ -95,7 +110,7 @@ void EditorGUI::DisplayPropertiesGUI()
 						else if (type == "SpriteRenderer")
 						{
 							std::shared_ptr<SpriteRenderer> spriteComp = std::dynamic_pointer_cast<SpriteRenderer>(comp);
-							ImGui::Text(("Sprite ID: " + spriteComp->GetSpriteID()).c_str());
+							ImGui::Text(("SpriteID: " + spriteComp->GetSpriteID()).c_str());
 							bool playState = spriteComp->GetPlayState();
 							if (ImGui::Checkbox("Playing", &playState))
 							{
@@ -108,11 +123,35 @@ void EditorGUI::DisplayPropertiesGUI()
 							}
 						}
 						ImGui::PopStyleColor();
+						//--Add Component--
+
+
+						//--Remove Component--
+
+						ImGui::PushStyleColor(ImGuiCol_Text, Red);
+
+						//Button to remove current component
+						if (ImGui::Button("Remove Component"))
+						{
+							//componentToDelete = comp->GetType(); //Push it to compToDelete variable as if we delete it in the for loop next loop will error out
+							//when trying to access it
+
+						}
+
+						ImGui::PopStyleColor();
 					}
 					ImGui::PopStyleColor();
 					//Display each component by name
 
 				}
+				//If we have a gameobject componenet t
+				//if (componentToDelete != "Null")
+				//{
+				//	currentlySelectedGameObject->RemoveComponent(componentToDelete);
+				//	componentToDelete = "Null";
+
+				//}
+
 			}
 
 			ImGui::EndChild();

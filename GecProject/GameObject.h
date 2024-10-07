@@ -4,6 +4,7 @@
 #include <memory>
 #include <unordered_map>
 #include "TransformComponent.h"
+#include "iostream"
 
 //Forward declaration
 class Component;
@@ -28,6 +29,22 @@ public:
 
 	//Tries to attach a component, returns bool whether succesfull
 	bool AttachComponent(std::shared_ptr<Component> component);
+
+ 
+	void RemoveComponent(std::string componentName)
+	{
+		auto attachedComponentToFind = attachedComponents.find(componentName);
+
+		//If we have  got this component attached then delete it
+		if (attachedComponentToFind != attachedComponents.end())
+		{
+			std::cout << "Deleting component";
+			attachedComponents.erase(attachedComponentToFind->first);
+			std::cout << "Deleted component";
+		}
+		
+	}
+
 	const std::string& GetName()
 	{
 		return gameObjectName;

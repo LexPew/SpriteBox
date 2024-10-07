@@ -19,16 +19,15 @@
 #include "SpriteRenderer.h"
 #include "Scene.h"
 #include "EditorGUI.h"
-void DefineGUI();
 
-void ObjectPropertiesGUI();
+
 
 //Performance metrics
 PerformanceMetrics metrics;
 GameObject newGameObject;
 GameObject object2;
 Scene loadedScene;
-GameObject* selectedGameObject = nullptr;
+GameObject* selectedGameObject{ nullptr };
 int main()
 {
     // Redirect cout to HAPI
