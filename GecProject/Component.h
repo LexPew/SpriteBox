@@ -10,7 +10,7 @@ protected:
 public:
 	virtual ~Component() = default;
 
-	std::string GetType() 	//Returns the identifier for this component, e.g Transform, Sprite, etc
+	std::string GetType() //Returns the identifier for this component, e.g Transform, Sprite, etc
 	{
 		//First we get the typeId of this
 		std::string type = typeid(*this).name();

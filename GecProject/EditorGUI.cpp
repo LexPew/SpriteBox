@@ -1,4 +1,6 @@
 #include "EditorGUI.h"
+
+#include "Sprite.h"
 #include "SpriteRenderer.h"
 
 void EditorGui::Update()
@@ -65,9 +67,9 @@ void EditorGui::DisplayPropertiesGui() const
 			if (ImGui::CollapsingHeader((CurrentlySelectedGameObject->GetName() + " properties").c_str()))
 			{
 				//List each component
-				for (auto& component : CurrentlySelectedGameObject->GetComponents())
+				for (const auto& component : CurrentlySelectedGameObject->GetComponents())
 				{
-					const std::shared_ptr<Component>& comp = component.second;
+					Component* comp = component.second;
 					std::string type = component.second->GetType();
 					//ImGui::Text(component.second->GetType().c_str());
 					ImGui::PushStyleColor(ImGuiCol_Text, TEAL_GREEN);
@@ -77,8 +79,7 @@ void EditorGui::DisplayPropertiesGui() const
 						if (type == "TransformComponent")
 						{
 							//Const as we are just grabbing xPos and yPos then assigning them to editable integers
-							const std::shared_ptr<TransformComponent> transformComp = std::dynamic_pointer_cast<
-								TransformComponent>(comp);
+							TransformComponent* transformComp = dynamic_cast<TransformComponent*>(comp);
 							const float xPosition = transformComp->GetPosition().x;
 							const float yPosition = transformComp->GetPosition().y;
 
@@ -93,8 +94,7 @@ void EditorGui::DisplayPropertiesGui() const
 						}
 						else if (type == "SpriteRenderer")
 						{
-							const std::shared_ptr<SpriteRenderer>& spriteComp = std::dynamic_pointer_cast<
-								SpriteRenderer>(comp);
+							SpriteRenderer* spriteComp = dynamic_cast<SpriteRenderer*>(comp);
 							ImGui::Text("SpriteID: %s", spriteComp->GetSpriteID().c_str());
 							bool playState = spriteComp->GetPlayState();
 							if (ImGui::Checkbox("Playing", &playState))

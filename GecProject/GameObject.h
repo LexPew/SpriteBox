@@ -12,51 +12,83 @@ class Component;
 class GameObject
 {
 private:
-	std::string GameObjectName{"GameObject"}; //This is the game-objects name and will be used to identify it, e.g for a scene search "Null" would return this
-	std::unordered_map<std::string, std::shared_ptr<Component>> AttachedComponents; //Attached components holds all current components associated with this gameobject, by their string name and a shared ptr
+	/**
+	 * This acts as the game-objects identifier and name
+	 */
+	std::string GameObjectName{"GameObject"};
+
+	/**
+	 * Unordered map that holds all the currently attached components to this game-object via their type, and a ptr
+	 */
+	std::unordered_map<std::string, Component*> AttachedComponents;
+
 public:
-	//Constructors (Game-objects are assigned a transform component by default
+
+	/**
+	 * Creates a new game-object with the default name "GameObject" and attaches a Transform component
+	 */
 	GameObject()
 	{
-		AttachComponent(std::make_shared<TransformComponent>());
-	};
-	GameObject(std::string _gameObjectName)
-	{
-		GameObjectName = _gameObjectName;
-
-		AttachComponent(std::make_shared<TransformComponent>());
+		AttachComponent(new TransformComponent);
 	}
 
-	//Tries to attach a component, returns bool whether succesfull
-	bool AttachComponent(std::shared_ptr<Component> component);
-
- 
-	void RemoveComponent(std::string componentName)
+	/**
+	 * Creates a new game-object with the chosen name and attaches a Transform component
+	 * @param p_gameObjectName The name of this new game-object
+	 */
+	explicit GameObject(const std::string& p_gameObjectName)
 	{
-		auto attachedComponentToFind = AttachedComponents.find(componentName);
+		GameObjectName = p_gameObjectName;
 
-		//If we have  got this component attached then delete it
-		if (attachedComponentToFind != AttachedComponents.end())
-		{
-			std::cout << "Deleting component";
-			AttachedComponents.erase(attachedComponentToFind->first);
-			std::cout << "Deleted component";
-		}
-		
+		AttachComponent(new TransformComponent);
 	}
 
+	/**
+	 * Runs the cleanup function to delete all component pointers and clear the AttachedComponents map
+	 */
+	~GameObject()
+	{
+		Cleanup();
+	}
+
+	/**
+	 * @return Game-object's name
+	 */
 	const std::string& GetName()
 	{
 		return GameObjectName;
 	}
-	//Returns a component T if the search was succesfull
+
+	/**
+	 * @return Constant reference to AttachedComponents on this game-object
+	 */
+	const std::unordered_map<std::string, Component*>& GetComponents() const;
+
+	/**
+	 * Tries to attach p_component will return a bool depending on the result
+	 * @param p_component The given component to be attached to this game-object
+	 * @return True or false depending on whether the game-object could be attached or not
+	 */
+	bool AttachComponent(Component* p_component);
+ 
+	/**
+	 * Removes a component via its type, use GetType() to receive the type from a component
+	 * @param p_componentType This is the type of component to remove
+	 */
+	void RemoveComponent(const std::string& p_componentType);
+
+	/**
+	 * Attempts to retrieve a component based on the input type
+	 * @tparam T Type of component to retrieve
+	 * @return Component or nullptr
+	 */
 	template <typename T> inline
-	std::shared_ptr<T> GetComponent()
+	T* GetComponent()
 	{
-		std::shared_ptr<T> result = nullptr;
+		T* result = nullptr;
 		for (const auto& pair : AttachedComponents)
 		{
-			result = std::dynamic_pointer_cast<T>(pair.second); // Using dynamic_pointer_cast for shared pointers
+			result = dynamic_cast<T*>(pair.second);
 			if (result)
 			{
 				break;
@@ -65,16 +97,36 @@ public:
 		return result;
 	}
 
-	// Get all components (returns by reference)
-	const std::unordered_map<std::string, std::shared_ptr<Component>>& GetComponents() const
-	{
-		return AttachedComponents;
-	}
 
-	//Game logic funcs
+
+	/**
+	 * Called once at the start of the game-objects life
+	 */
 	void Start();
 
-	void Update(float deltaTime);//Update is run every frame
+	/**
+	 * Updates this game-object and all attached components
+	 * @param p_deltaTime Time between last frame update and current frame update
+	 */
+	void Update(float p_deltaTime);
 
-	void Render();  //Render is ran every frame after update
+
+	/**
+	 * Renders all render based components
+	 */
+	void Render();
+
+private:
+	/**
+	 * Deletes all component pointers in AttachedComponents and cleans up
+	 */
+	void Cleanup()
+	{
+		for (auto& pair : AttachedComponents)
+		{
+			delete pair.second;
+		}
+		AttachedComponents.clear();
+
+	}
 };

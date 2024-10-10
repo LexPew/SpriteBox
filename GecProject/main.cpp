@@ -48,17 +48,17 @@ int main()
 
     IGraphics* graphicsHandler = new SFMLGraphics(&window);
 
-    //std::string textureName = "Attack.png";
 
     newGameObject = GameObject("Retest");
 
     newGameObject.GetComponent<TransformComponent>()->SetPosition(Vector2(10, 10));
-    newGameObject.AttachComponent(std::make_shared<SpriteRenderer>("Attack.png", 8, 0, *graphicsHandler));
+    newGameObject.AttachComponent(new SpriteRenderer("Attack.png", 8, 0, *graphicsHandler));
 
     object2 = GameObject("TestObject6");
     object2.GetComponent<TransformComponent>()->SetPosition(Vector2(50, 10));
-    object2.AttachComponent(std::make_shared<SpriteRenderer>("A.png", 1, 0, *graphicsHandler));
-    std::cout << "TYPE TEST: " << typeid(*object2.GetComponent<TransformComponent>()).name() << "\n";
+    object2.AttachComponent(new SpriteRenderer("A.png", 1, 0, *graphicsHandler));
+
+
     loadedScene = Scene(graphicsHandler);
     loadedScene.AddGameObject(&newGameObject);
     loadedScene.AddGameObject(&object2);
