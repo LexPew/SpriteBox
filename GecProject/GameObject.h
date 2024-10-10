@@ -3,10 +3,9 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
-#include "TransformComponent.h"
+#include "Transform.h"
 #include "iostream"
 
-//Forward declaration
 class Component;
 
 class GameObject
@@ -29,7 +28,7 @@ public:
 	 */
 	GameObject()
 	{
-		AttachComponent(new TransformComponent);
+		AttachComponent(new Transform);
 	}
 
 	/**
@@ -40,7 +39,7 @@ public:
 	{
 		GameObjectName = p_gameObjectName;
 
-		AttachComponent(new TransformComponent);
+		AttachComponent(new Transform);
 	}
 
 	/**
@@ -51,6 +50,10 @@ public:
 		Cleanup();
 	}
 
+	void SetName(const std::string& p_gameObjectName)
+	{
+		GameObjectName = p_gameObjectName;
+	}
 	/**
 	 * @return Game-object's name
 	 */
@@ -108,7 +111,7 @@ public:
 	 * Updates this game-object and all attached components
 	 * @param p_deltaTime Time between last frame update and current frame update
 	 */
-	void Update(float p_deltaTime);
+	void Update(const float p_deltaTime);
 
 
 	/**
@@ -122,7 +125,7 @@ private:
 	 */
 	void Cleanup()
 	{
-		for (auto& pair : AttachedComponents)
+		for (const auto& pair : AttachedComponents)
 		{
 			delete pair.second;
 		}

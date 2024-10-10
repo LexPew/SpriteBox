@@ -31,7 +31,7 @@ public:
 	}
 
 	//virtual std::string GetType() override { return "SpriteRenderer"; }
-	virtual void Update(float deltaTime) override;
+	virtual void Update(const float p_deltaTime) override;
 	virtual void Render() override;
 	bool UpdateCurrentSprite(std::string& _SpriteId, int _spriteSheetRows, int _spriteSheetStartFrame)
 	{

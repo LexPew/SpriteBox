@@ -76,12 +76,12 @@ void EditorGui::DisplayPropertiesGui() const
 					if (ImGui::CollapsingHeader(component.second->GetType().c_str()))
 					{
 						ImGui::PushStyleColor(ImGuiCol_Text, WHITE);
-						if (type == "TransformComponent")
+						if (type == "Transform")
 						{
 							//Const as we are just grabbing xPos and yPos then assigning them to editable integers
-							TransformComponent* transformComp = dynamic_cast<TransformComponent*>(comp);
-							const float xPosition = transformComp->GetPosition().x;
-							const float yPosition = transformComp->GetPosition().y;
+							Transform* transformComp = dynamic_cast<Transform*>(comp);
+							const float xPosition = transformComp->GetPosition().X;
+							const float yPosition = transformComp->GetPosition().Y;
 
 							float xEditable = xPosition;
 							float yEditable = yPosition;

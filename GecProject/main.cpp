@@ -15,7 +15,7 @@
 
 //GameObject related
 #include "GameObject.h"
-#include "TransformComponent.h"
+#include "Transform.h"
 #include "SpriteRenderer.h"
 #include "Scene.h"
 #include "EditorGUI.h"
@@ -49,13 +49,13 @@ int main()
     IGraphics* graphicsHandler = new SFMLGraphics(&window);
 
 
-    newGameObject = GameObject("Retest");
+    newGameObject.SetName("GameObject1");
 
-    newGameObject.GetComponent<TransformComponent>()->SetPosition(Vector2(10, 10));
+    newGameObject.GetComponent<Transform>()->SetPosition(Vector2(10, 10));
     newGameObject.AttachComponent(new SpriteRenderer("Attack.png", 8, 0, *graphicsHandler));
 
-    object2 = GameObject("TestObject6");
-    object2.GetComponent<TransformComponent>()->SetPosition(Vector2(50, 10));
+    object2.SetName("GameObject2");
+    object2.GetComponent<Transform>()->SetPosition(Vector2(50, 10));
     object2.AttachComponent(new SpriteRenderer("A.png", 1, 0, *graphicsHandler));
 
 

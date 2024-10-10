@@ -35,10 +35,7 @@ private:
 private:
 
 public:
-	Animation()
-	{
-
-	}
+	Animation() = default;
 	Animation(sf::Texture* spriteSheetTexture, sf::Sprite* sprite, int rows)
 	{
 		targetSprite = sprite;
@@ -68,11 +65,11 @@ public:
 		}
 
 	}
-	void Update(float deltaTime)
+	void Update(const float p_deltaTime)
 	{
 		if(play && loop)
 		{
-			timer -= deltaTime * animationSpeedMultiplier;
+			timer -= p_deltaTime * animationSpeedMultiplier;
 			if (timer <= 0)
 			{
 				timer = 0.0833333333; //12FPS

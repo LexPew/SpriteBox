@@ -7,18 +7,17 @@ const std::unordered_map<std::string, Component*>& GameObject::GetComponents() c
 	return AttachedComponents;
 }
 
-//Attaches a new component to the class if it doesnt already exist in the components map.
 bool GameObject::AttachComponent(Component* p_component)
 {
 	auto attachedComponentToFind = AttachedComponents.find(p_component->GetType());
 
-	//If we have this already got this component attached then dont add it 
+	//If we have this already got this component attached then don't add it 
 	if (attachedComponentToFind != AttachedComponents.end())
 	{
-		//std::cout << "Tried to add a component twice on gameobject: " << name;
+		//std::cout << "Tried to add a component twice on game-object: " << name;
 		return false;
 	}
-	else //Add the component to the unordermap
+	else //Add the component to the unordered map
 	{
 		AttachedComponents[p_component->GetType()] = p_component;
 		p_component->SetOwner(this);
@@ -50,8 +49,8 @@ void GameObject::Start()
 		i->second->Start();
 	}
 }
-//Runs the update function on each attached component.
-void GameObject::Update(float p_deltaTime)
+
+void GameObject::Update(const float p_deltaTime)
 {
 	//Loop through every component and call the update function
 	for (auto i = AttachedComponents.begin(); i != AttachedComponents.end(); i++)
@@ -59,10 +58,10 @@ void GameObject::Update(float p_deltaTime)
 		i->second->Update(p_deltaTime);
 	}
 }
-//Runs the render function on each attached component("Used for things like sprites")
+
 void GameObject::Render()
 {	
-	//Loop through every component and call the Render function
+	//Loop through every component and call the render function
 	for (auto i = AttachedComponents.begin(); i != AttachedComponents.end(); i++)
 	{
 		i->second->Render();

@@ -3,11 +3,11 @@
 #include "GameObject.h"
 
 
-void SpriteRenderer::Update(float deltaTime)
+void SpriteRenderer::Update(const float p_deltaTime)
 {
 	if (play && loop)
 	{
-		timer -= deltaTime * animationSpeedMultiplier;
+		timer -= p_deltaTime * animationSpeedMultiplier;
 		if (timer <= 0)
 		{
 			timer = 0.0833333333; //12FPS
@@ -18,8 +18,8 @@ void SpriteRenderer::Update(float deltaTime)
 
 void SpriteRenderer::Render()
 {
-	TransformComponent& transfrom = *owner->GetComponent<TransformComponent>();
-	graphicsHandler.RenderSprite(spriteId, transfrom.GetPosition().x, transfrom.GetPosition().y, spriteSheetRows,spriteSheetCurrentFrame);
+	Transform& transfrom = *Owner->GetComponent<Transform>();
+	graphicsHandler.RenderSprite(spriteId, transfrom.GetPosition().X, transfrom.GetPosition().Y, spriteSheetRows,spriteSheetCurrentFrame);
 }
 
 void SpriteRenderer::PlayNextFrame()
