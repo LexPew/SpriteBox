@@ -62,7 +62,7 @@ int main()
     loadedScene = Scene(graphicsHandler);
     loadedScene.AddGameObject(&newGameObject);
     loadedScene.AddGameObject(&object2);
-    EditorGUI editorGui(window, loadedScene);
+    EditorGui editorGui(&window, &loadedScene);
     sf::Clock uiDeltaClock;
   
 

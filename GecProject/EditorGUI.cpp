@@ -1,91 +1,86 @@
 #include "EditorGUI.h"
 #include "SpriteRenderer.h"
 
-void EditorGUI::Update()
+void EditorGui::Update()
 {
 
 	//Render our Editor Tools window, this is where all other menus will be accessed from via buttons
 	ImGui::Begin("Editor Tools");
-	if (currentlySelectedGameObject != nullptr)
-	{
-		ImGui::Text(currentlySelectedGameObject->GetName().c_str());
-	}
 
-	if (ImGui::Button("Scene Heirarchy"))
+	if (ImGui::Button("Scene Hierarchy"))
 	{
-		displaySceneHeirarchy = !displaySceneHeirarchy;
+		DisplaySceneHierarchy = !DisplaySceneHierarchy;
 
 	}
-	DiplaySceneHeirarchyGUI();
+	DisplaySceneHierarchyGui();
 
 	ImGui::End();
 }
 
-void EditorGUI::Render()
+
+void EditorGui::Render() const
 {
-	ImGui::SFML::Render(renderWindow);
+	ImGui::SFML::Render(*RenderWindow);
 }
 
-//Lists all gameobjects in the scene and makes them selectable
-void EditorGUI::DiplaySceneHeirarchyGUI()
+
+void EditorGui::DisplaySceneHierarchyGui()
 {
-	if (displaySceneHeirarchy)
+	if (DisplaySceneHierarchy)
 	{
-		//Create a new GUI window named Scene Heirarchy to hold our listbox element
-		ImGui::Begin("Scene Heirarchy");
+		//Create a new GUI window named Scene Hierarchy to hold our listbox element
+		ImGui::Begin("Scene Hierarchy");
 
 		if (ImGui::BeginListBox("GameObjects"))
 		{
 
-			//Loop through each gameobject in the currently loaded scene and make a selectable
-			for (GameObject* gameObject : currentlyLoadedScene.GetGameObjects())
+			//Loop through each game-object in the currently loaded scene and make a selectable
+			for (GameObject* gameObject : CurrentlyLoadedScene->GetGameObjects())
 			{
 				ImGui::Bullet();
 				if (ImGui::Selectable(gameObject->GetName().c_str()))
 				{
-					//We have clicked on this gameobject
-					currentlySelectedGameObject = gameObject;
-					displayPropertiesWindow = true;
+					//We have clicked on this game-object
+					CurrentlySelectedGameObject = gameObject;
+					DisplayPropertiesWindow = true;
 
 				}
 
 			}
 			ImGui::EndListBox();
 		}
-		DisplayPropertiesGUI();
+		DisplayPropertiesGui();
 		ImGui::End();
 	}
 }
-//This will display the objects properties in a neat header below the scene heirarchy list
-void EditorGUI::DisplayPropertiesGUI()
+
+void EditorGui::DisplayPropertiesGui() const
 {
-	//Make sure we have a gameobject selected otherwise it will cause an error
-	if (displayPropertiesWindow && currentlySelectedGameObject != nullptr)
+	//Make sure we have a game-object selected otherwise it will cause an error
+	if (DisplayPropertiesWindow && CurrentlySelectedGameObject != nullptr)
 	{
 		//Create it as a child of scene heir so it displays inside its window
-		if (ImGui::BeginChild("SceneHeirarchy"))
+		if (ImGui::BeginChild("SceneHierarchy"))
 		{
-			if (ImGui::CollapsingHeader((currentlySelectedGameObject->GetName() + " properties").c_str()))
+			if (ImGui::CollapsingHeader((CurrentlySelectedGameObject->GetName() + " properties").c_str()))
 			{
-
-
-
 				//List each component
-				for (auto component : currentlySelectedGameObject->GetComponents())
+				for (auto& component : CurrentlySelectedGameObject->GetComponents())
 				{
-
-					std::shared_ptr<Component>& comp = component.second;
+					const std::shared_ptr<Component>& comp = component.second;
 					std::string type = component.second->GetType();
 					//ImGui::Text(component.second->GetType().c_str());
-					ImGui::PushStyleColor(ImGuiCol_Text, TealGreen);
+					ImGui::PushStyleColor(ImGuiCol_Text, TEAL_GREEN);
 					if (ImGui::CollapsingHeader(component.second->GetType().c_str()))
 					{
-						ImGui::PushStyleColor(ImGuiCol_Text, White);
+						ImGui::PushStyleColor(ImGuiCol_Text, WHITE);
 						if (type == "TransformComponent")
 						{
-							std::shared_ptr<TransformComponent> transformComp = std::dynamic_pointer_cast<TransformComponent>(comp);
-							float xPosition = transformComp->GetPosition().x;
-							float yPosition = transformComp->GetPosition().y;
+							//Const as we are just grabbing xPos and yPos then assigning them to editable integers
+							const std::shared_ptr<TransformComponent> transformComp = std::dynamic_pointer_cast<
+								TransformComponent>(comp);
+							const float xPosition = transformComp->GetPosition().x;
+							const float yPosition = transformComp->GetPosition().y;
 
 							float xEditable = xPosition;
 							float yEditable = yPosition;
@@ -98,40 +93,32 @@ void EditorGUI::DisplayPropertiesGUI()
 						}
 						else if (type == "SpriteRenderer")
 						{
-							std::shared_ptr<SpriteRenderer> spriteComp = std::dynamic_pointer_cast<SpriteRenderer>(comp);
-							ImGui::Text(("SpriteID: " + spriteComp->GetSpriteID()).c_str());
+							const std::shared_ptr<SpriteRenderer>& spriteComp = std::dynamic_pointer_cast<
+								SpriteRenderer>(comp);
+							ImGui::Text("SpriteID: %s", spriteComp->GetSpriteID().c_str());
 							bool playState = spriteComp->GetPlayState();
 							if (ImGui::Checkbox("Playing", &playState))
 							{
 								spriteComp->SetPlayState(playState);
 							}
 							float animationMultiplierSpeed = spriteComp->GetSpeed();
-							if (ImGui::SliderFloat("Animation Spped", &animationMultiplierSpeed, 0, 5))
+							if (ImGui::SliderFloat("Animation Speed", &animationMultiplierSpeed, 0, 5))
 							{
 								spriteComp->SetSpeed(animationMultiplierSpeed);
 							}
 						}
 						ImGui::PopStyleColor();
-						//--Add Component--
 
-
-						//--Remove Component--
-
-						ImGui::PushStyleColor(ImGuiCol_Text, Red);
+						ImGui::PushStyleColor(ImGuiCol_Text, RED);
 
 
 						ImGui::PopStyleColor();
 					}
 					ImGui::PopStyleColor();
-					//Display each component by name
-
 				}
-
 			}
 
 			ImGui::EndChild();
 		}
-
-
 	}
 }

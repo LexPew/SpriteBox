@@ -3,38 +3,74 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-class EditorGUI
+class EditorGui
 {
 private:
-	sf::RenderWindow& renderWindow;
+	/**
+	 * Pointer to our current render window which we use when drawing ImGui
+	 */
+	sf::RenderWindow* RenderWindow{nullptr};
 
-	//Gameobject variables
-	GameObject* currentlySelectedGameObject{ nullptr }; //This holds a reference to our currently selected gameobject, useful for displaying its properties / editing them
-	
-	//Colours 
-	#define White IM_COL32(255, 255, 255,255)
-	#define TealGreen IM_COL32(75, 202, 147,255)
-	#define Red IM_COL32(230, 85, 85,255)
+	/**
+	* Pointer to the currently loaded scene, this is used to grab the game-objects
+	*/
+	Scene* CurrentlyLoadedScene{nullptr};
 
-	//Window Bools
-	bool displayPropertiesWindow{ false };
-	bool displaySceneHeirarchy{ false };
+	/**
+	 * Pointer to the current game-object selected via ImGui
+	 */
+	GameObject* CurrentlySelectedGameObject{ nullptr };
+
+	/**
+	 * Predefined colours used for ImGui
+	 */
+	#define WHITE IM_COL32(255, 255, 255,255)
+	#define TEAL_GREEN IM_COL32(75, 202, 147,255)
+	#define RED IM_COL32(230, 85, 85,255)
 
 
-	//Loaded Scene Reference, used for scene heirarchy
-	Scene& currentlyLoadedScene;
+	bool DisplayPropertiesWindow{ false };
+	bool DisplaySceneHierarchy{ false };
+
 public:
-	EditorGUI(sf::RenderWindow& _renderWindow, Scene& _currentlyLoadedScene) : renderWindow(_renderWindow), currentlyLoadedScene(_currentlyLoadedScene)
-	{
-		// Set up ImGui (the UI library)
-		ImGui::SFML::Init(renderWindow);
-		
-	};
 
+	/**
+	 * Default constructor for use with copy assign later on, gui will not work otherwise as the CurrentlyLoadedScene and RenderWindow need to be assigned
+	 */
+	EditorGui() = default;
+
+	/**
+	 * 
+	 * @param p_renderWindow			Pointer to the current SFML rendering window which will be used to draw ImGui gui's 
+	 * @param p_currentlyLoadedScene	Pointer to the currently loaded scene which will be used to gather info from such as game-objects
+	 */
+	EditorGui(sf::RenderWindow* p_renderWindow, Scene* p_currentlyLoadedScene)
+	{
+		//Assign both the render window and the currently loaded scene
+		RenderWindow = p_renderWindow;
+		CurrentlyLoadedScene = p_currentlyLoadedScene;
+
+		//Initialize ImGui for SFML
+		ImGui::SFML::Init(*RenderWindow);
+	}
+
+	/**
+	 * Ran before render() to update or grab any properties from the scene to use when displaying a gui
+	 */
 	void Update();
-	void Render();
+	/**
+	 * Renders all ImGui windows, called after the update function
+	*/
+	void Render() const;
 private:
-	void DiplaySceneHeirarchyGUI();
-	void DisplayPropertiesGUI();
+	/**
+	 * Displays all the game-objects in the current scene in a ImGui::Listbox and makes them selectable
+	 */
+	void DisplaySceneHierarchyGui();
+
+	/**
+	 * Displays the components of the CurrentlySelectedGameObject and their respective properties such as X,Y position
+	 */
+	void DisplayPropertiesGui() const;
 };
 

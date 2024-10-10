@@ -4,17 +4,17 @@
 //Attaches a new component to the class if it doesnt already exist in the components map.
 bool GameObject::AttachComponent(std::shared_ptr<Component> component)
 {
-	auto attachedComponentToFind = attachedComponents.find(component->GetType());
+	auto attachedComponentToFind = AttachedComponents.find(component->GetType());
 
 	//If we have this already got this component attached then dont add it 
-	if (attachedComponentToFind != attachedComponents.end())
+	if (attachedComponentToFind != AttachedComponents.end())
 	{
 		//std::cout << "Tried to add a component twice on gameobject: " << name;
 		return false;
 	}
 	else //Add the component to the unordermap
 	{
-		attachedComponents[component->GetType()] = component;
+		AttachedComponents[component->GetType()] = component;
 		component->SetOwner(this);
 	}
 	
@@ -22,7 +22,7 @@ bool GameObject::AttachComponent(std::shared_ptr<Component> component)
 void GameObject::Start()
 {
 	//Loop through every component and call the start function
-	for (auto i = attachedComponents.begin(); i != attachedComponents.end(); i++)
+	for (auto i = AttachedComponents.begin(); i != AttachedComponents.end(); i++)
 	{
 		i->second->Start();
 	}
@@ -31,7 +31,7 @@ void GameObject::Start()
 void GameObject::Update(float deltaTime)
 {
 	//Loop through every component and call the update function
-	for (auto i = attachedComponents.begin(); i != attachedComponents.end(); i++)
+	for (auto i = AttachedComponents.begin(); i != AttachedComponents.end(); i++)
 	{
 		i->second->Update(deltaTime);
 	}
@@ -40,7 +40,7 @@ void GameObject::Update(float deltaTime)
 void GameObject::Render()
 {	
 	//Loop through every component and call the Render function
-	for (auto i = attachedComponents.begin(); i != attachedComponents.end(); i++)
+	for (auto i = AttachedComponents.begin(); i != AttachedComponents.end(); i++)
 	{
 		i->second->Render();
 	} 

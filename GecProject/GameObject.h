@@ -12,17 +12,17 @@ class Component;
 class GameObject
 {
 private:
-	std::string gameObjectName{"GameObject"}; //This is the gameobjects name and will be used to identify it, e.g for a scene search "Null" would return this
-	std::unordered_map<std::string, std::shared_ptr<Component>> attachedComponents; //Attached components holds all current components associated with this gameobject, by their string name and a shared ptr
+	std::string GameObjectName{"GameObject"}; //This is the game-objects name and will be used to identify it, e.g for a scene search "Null" would return this
+	std::unordered_map<std::string, std::shared_ptr<Component>> AttachedComponents; //Attached components holds all current components associated with this gameobject, by their string name and a shared ptr
 public:
-	//Constructors (Gameobjects are assigned a transform component by default
+	//Constructors (Game-objects are assigned a transform component by default
 	GameObject()
 	{
 		AttachComponent(std::make_shared<TransformComponent>());
 	};
 	GameObject(std::string _gameObjectName)
 	{
-		gameObjectName = _gameObjectName;
+		GameObjectName = _gameObjectName;
 
 		AttachComponent(std::make_shared<TransformComponent>());
 	}
@@ -33,13 +33,13 @@ public:
  
 	void RemoveComponent(std::string componentName)
 	{
-		auto attachedComponentToFind = attachedComponents.find(componentName);
+		auto attachedComponentToFind = AttachedComponents.find(componentName);
 
 		//If we have  got this component attached then delete it
-		if (attachedComponentToFind != attachedComponents.end())
+		if (attachedComponentToFind != AttachedComponents.end())
 		{
 			std::cout << "Deleting component";
-			attachedComponents.erase(attachedComponentToFind->first);
+			AttachedComponents.erase(attachedComponentToFind->first);
 			std::cout << "Deleted component";
 		}
 		
@@ -47,14 +47,14 @@ public:
 
 	const std::string& GetName()
 	{
-		return gameObjectName;
+		return GameObjectName;
 	}
 	//Returns a component T if the search was succesfull
 	template <typename T> inline
 	std::shared_ptr<T> GetComponent()
 	{
 		std::shared_ptr<T> result = nullptr;
-		for (const auto& pair : attachedComponents)
+		for (const auto& pair : AttachedComponents)
 		{
 			result = std::dynamic_pointer_cast<T>(pair.second); // Using dynamic_pointer_cast for shared pointers
 			if (result)
@@ -68,7 +68,7 @@ public:
 	// Get all components (returns by reference)
 	const std::unordered_map<std::string, std::shared_ptr<Component>>& GetComponents() const
 	{
-		return attachedComponents;
+		return AttachedComponents;
 	}
 
 	//Game logic funcs
