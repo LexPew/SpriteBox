@@ -42,7 +42,7 @@ int main()
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
     // Create the SFML window
-    sf::RenderWindow window(sf::VideoMode(1000, 800), "GEC Engine");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "GEC Engine");
 
     srand(time(nullptr));
 

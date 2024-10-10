@@ -11,7 +11,7 @@ private:
 	//Gameobject variables
 	GameObject* currentlySelectedGameObject{ nullptr }; //This holds a reference to our currently selected gameobject, useful for displaying its properties / editing them
 	
-	//Colours
+	//Colours 
 	#define White IM_COL32(255, 255, 255,255)
 	#define TealGreen IM_COL32(75, 202, 147,255)
 	#define Red IM_COL32(230, 85, 85,255)
@@ -28,6 +28,7 @@ public:
 	{
 		// Set up ImGui (the UI library)
 		ImGui::SFML::Init(renderWindow);
+		
 	};
 
 	void Update();

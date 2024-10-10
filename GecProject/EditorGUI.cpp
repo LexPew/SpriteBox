@@ -68,17 +68,6 @@ void EditorGUI::DisplayPropertiesGUI()
 			if (ImGui::CollapsingHeader((currentlySelectedGameObject->GetName() + " properties").c_str()))
 			{
 
-				ImGui::PushStyleColor(ImGuiCol_Text, TealGreen);
-
-				//Button to remove current component
-				if (ImGui::Button("Add Component"))
-				{
-					currentlySelectedGameObject->AttachComponent(std::make_shared<TransformComponent>(Vector2(0, 0)));
-					//when trying to access it
-
-				}
-
-				ImGui::PopStyleColor();
 
 
 				//List each component
@@ -130,13 +119,6 @@ void EditorGUI::DisplayPropertiesGUI()
 
 						ImGui::PushStyleColor(ImGuiCol_Text, Red);
 
-						//Button to remove current component
-						if (ImGui::Button("Remove Component"))
-						{
-							//componentToDelete = comp->GetType(); //Push it to compToDelete variable as if we delete it in the for loop next loop will error out
-							//when trying to access it
-
-						}
 
 						ImGui::PopStyleColor();
 					}
@@ -144,13 +126,6 @@ void EditorGUI::DisplayPropertiesGUI()
 					//Display each component by name
 
 				}
-				//If we have a gameobject componenet t
-				//if (componentToDelete != "Null")
-				//{
-				//	currentlySelectedGameObject->RemoveComponent(componentToDelete);
-				//	componentToDelete = "Null";
-
-				//}
 
 			}
 
