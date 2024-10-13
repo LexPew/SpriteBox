@@ -8,8 +8,6 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Animation.h"
-#include "PerformanceMetrics.h"
 #include "IGraphics.h"
 #include "SFMLGraphics.h"
 
@@ -19,24 +17,24 @@
 #include "SpriteRenderer.h"
 #include "Scene.h"
 #include "EditorGUI.h"
-
+#include "Sprite.h"
 
 
 //Performance metrics
-PerformanceMetrics metrics;
-GameObject newGameObject;
-GameObject object2;
+GameObject* newGameObject;
+GameObject* object2;
 Scene loadedScene;
 GameObject* selectedGameObject{ nullptr };
 int main()
 {
-    // Redirect cout to HAPI
+     //Redirect cout to HAPI
     outbuf ob;
+
     std::streambuf* sb = std::cout.rdbuf(&ob);
 
-    // Redirect cerr
+     //Redirect cerr
     outbuferr oberr;
-    std::streambuf* sberr = std::cerr.rdbuf(&oberr);
+   std::streambuf* sberr = std::cerr.rdbuf(&oberr);
 
     // Turn on memory leak checking
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -44,24 +42,33 @@ int main()
     // Create the SFML window
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "GEC Engine");
 
-    srand(time(nullptr));
-
     IGraphics* graphicsHandler = new SFMLGraphics(&window);
 
+    Sprite newSprite("Attack.png", 8);
+    newGameObject = new GameObject("GameObject1");
+    newGameObject->GetComponent<Transform>()->SetPosition(Vector2(10, 10));
+    newGameObject->AttachComponent(new SpriteRenderer(newSprite, graphicsHandler));
 
-    newGameObject.SetName("GameObject1");
+    object2 = new GameObject("GameObject2");
+    object2->SetName("GameObject2");
+    object2->GetComponent<Transform>()->SetPosition(Vector2(50, 10));
+    object2->AttachComponent(new SpriteRenderer(newSprite, graphicsHandler));
 
-    newGameObject.GetComponent<Transform>()->SetPosition(Vector2(10, 10));
-    newGameObject.AttachComponent(new SpriteRenderer("Attack.png", 8, 0, *graphicsHandler));
-
-    object2.SetName("GameObject2");
-    object2.GetComponent<Transform>()->SetPosition(Vector2(50, 10));
-    object2.AttachComponent(new SpriteRenderer("A.png", 1, 0, *graphicsHandler));
 
 
     loadedScene = Scene(graphicsHandler);
-    loadedScene.AddGameObject(&newGameObject);
-    loadedScene.AddGameObject(&object2);
+    loadedScene.AddGameObject(newGameObject);
+    loadedScene.AddGameObject(object2);
+
+    for (int i = 0; i < 10; i++)
+    {
+        std::string name = "GameObj" + std::to_string(i);
+        GameObject* obj = new GameObject(name);
+        obj->GetComponent<Transform>()->SetPosition(Vector2(i * 10.0f, i * 10.0f));
+        obj->AttachComponent(new SpriteRenderer(newSprite, graphicsHandler));
+        loadedScene.AddGameObject((obj));
+   }
+
     EditorGui editorGui(&window, &loadedScene);
     sf::Clock uiDeltaClock;
   
@@ -80,9 +87,17 @@ int main()
             case sf::Event::Closed:
                 window.close();
                 break;
+
+            case sf::Event::LostFocus:
+                window.setFramerateLimit(20);
+                break;
+            case sf::Event::GainedFocus:
+                window.setFramerateLimit(0);
+                break;
             case sf::Event::Resized:
                 window.setSize({ event.size.width, event.size.height });
-            default:
+                sf::View view(sf::FloatRect(0, 0, static_cast<float>(event.size.width), static_cast<float>(event.size.height)));
+                window.setView(view);
                 break;
             }
         }
@@ -91,9 +106,9 @@ int main()
 
         sf::Time deltaTime = uiDeltaClock.restart(); //Calculates deltaTime aka time between last frame and this frame
 
-        metrics.Update(deltaTime.asSeconds());
+        
         ImGui::SFML::Update(window, deltaTime);
-        editorGui.Update();
+        editorGui.Update(deltaTime.asSeconds());
         loadedScene.Update(deltaTime.asSeconds());
 
         //--RENDERING--

@@ -16,7 +16,6 @@ struct Vector2
 		X = p_xInput;
 		Y = p_yInput;
 	}
-
 	/**
 	 * Adds another Vector to this Vector
 	 * @param p_vectorB Vector to add to this

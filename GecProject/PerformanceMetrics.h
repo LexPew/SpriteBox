@@ -1,69 +1,109 @@
 #pragma once
+#include <vector>
+
+
+
 class PerformanceMetrics
 {
-	//Handles calculating and returning all performance related metrics, e.g fps
+	//Handles calculating and returning all performance related metrics, e.g. fps
 
 private:
 	//Smoothed Average frame rate
-	float timeAveragedFramesPerSecond	{ 1 };	//This holds the final averaged fps count
-	int frames							{ 0 };	 //Increased every update call until reset when framesTimer reaches 1
-	float framesTimer					{ 100.0f }; //Timer that counts up to frameSmoothInterval via delta time
-	float smoothingFactor				{ .5f }; //Controls how smooth the fps value is
-	float frameSmoothIntervalStart		{ 0 };
-	float frameSmoothInterval			{ 0.2f };
+	float TimeAveragedFramesPerSecond{1}; //This holds the final averaged fps count
+	int Frames{0}; //Increased every update call until reset when FramesTimer reaches 1
+	float FramesTimer{100.0f}; //Timer that counts up to frameSmoothInterval via delta time
+	float SmoothingFactor{.5f}; //Controls how smooth the fps value is
+	float FrameSmoothIntervalStart{0};
+	float FrameSmoothInterval{ 0.2f }; 
+	float FramesPerSecond{ 0 };
 	//Sampled points
-	#define maxSamples 50
+	int MaxSamples{ 50 };
 
-	int sampleCounter{ 0 };
+	int SampleCounter{ 0 };
+	std::vector<float> FrameSamples;
 public:
-	float framesPerSecondSamples[maxSamples];
+
+
+
+	/**
+	 * Creates a new performance metrics object and populates the FrameSamples with 0's
+	 */
 	PerformanceMetrics()
 	{
-		
-		for (int i = 0; i < maxSamples; i++)
+		//Populate FrameSamples vector with 0's
+		for(int sample = 0; sample < MaxSamples; sample++)
 		{
-			framesPerSecondSamples[i] = 0;
+			FrameSamples.push_back(0);
 		}
-		frameSmoothIntervalStart = frameSmoothInterval;
+		FrameSmoothIntervalStart = FrameSmoothInterval;
 	}
-	void Update(float deltaTime)
-	{
-		//Increase the frame counter and the timer
-		frames++;
-		framesTimer += deltaTime;
 
-		//If we have reached a second or greater calculate the averaged framerate and reset the timer
-		if (framesTimer >= frameSmoothInterval)
+	/**
+	 * @return A time smoothed FPS value
+	 */
+	float GetAveragedFrameRate() const
+	{
+		return TimeAveragedFramesPerSecond;
+	}
+
+	/**
+	 * Updates the smoothing factor to the input value
+	 * @param p_newSmoothingFactor How smooth FPS should be
+	 */
+	void SetSmoothingFactor(const float p_newSmoothingFactor)
+	{
+		SmoothingFactor = p_newSmoothingFactor;
+		FrameSmoothInterval = FrameSmoothIntervalStart * (1 + p_newSmoothingFactor);
+	}
+
+	float GetSmoothingFactor() const
+	{
+		return SmoothingFactor;
+	}
+	/**
+	 * @return The max amount of FPS samples taken
+	 */
+	int GetMaxSamples() const
+	{
+		return MaxSamples;
+	}
+
+	const std::vector<float>& GetSamples() const
+	{
+		return FrameSamples;
+	}
+
+	float GetFrameRate() const
+	{
+		return FramesPerSecond;
+	}
+
+	void Update(const float p_deltaTime)
+	{
+		FramesPerSecond = 1.0f / p_deltaTime;
+		//Increase the frame counter and the timer
+		Frames++;
+		FramesTimer += p_deltaTime;
+
+		//If we have reached a second or greater calculate the averaged frame-rate and reset the timer
+		if (FramesTimer >= FrameSmoothInterval)
 		{
-			//(fpsAlpha * averageFps + (1.0f - fpsAlpha) * (framesThisSecond / fpsTimer));
-			timeAveragedFramesPerSecond = (smoothingFactor * timeAveragedFramesPerSecond) + (1.0f - smoothingFactor) * (frames / framesTimer);
-			frames = 0;
-			framesTimer = 0;
-			if (sampleCounter != maxSamples - 1)
+			TimeAveragedFramesPerSecond = (SmoothingFactor * TimeAveragedFramesPerSecond) + (1.0f - SmoothingFactor) * (static_cast<float>(Frames) / FramesTimer);
+			Frames = 0;
+			FramesTimer = 0;
+			if (SampleCounter != MaxSamples - 1)
 			{
-				sampleCounter++;
+				SampleCounter++;
 
 			}
 			else
 			{
-				sampleCounter = 0;
+				SampleCounter = 0;
 
 			}
-			framesPerSecondSamples[sampleCounter] = timeAveragedFramesPerSecond;
+			FrameSamples[SampleCounter] = TimeAveragedFramesPerSecond;
 		}
 	}
-	float GetAveragedFrameRate()
-	{
-		return timeAveragedFramesPerSecond;
-	}
-	void SetSmoothingFactor(float newSmoothingFactor)
-	{
-		smoothingFactor = newSmoothingFactor;
-		frameSmoothInterval = frameSmoothIntervalStart * (1 + newSmoothingFactor);
-	}
-	int GetMaxSamples()
-	{
-		return maxSamples;
-	}
+
 };
 

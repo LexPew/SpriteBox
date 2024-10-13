@@ -2,7 +2,7 @@
 #include "ExternalHeaders.h"
 #include "GameObject.h"
 #include "Scene.h"
-
+#include "PerformanceMetrics.h"
 class EditorGui
 {
 private:
@@ -22,6 +22,10 @@ private:
 	GameObject* CurrentlySelectedGameObject{ nullptr };
 
 	/**
+	 * Pointer to the performance metrics object
+	 */
+	PerformanceMetrics* Metrics{ nullptr };
+	/**
 	 * Predefined colours used for ImGui
 	 */
 	#define WHITE IM_COL32(255, 255, 255,255)
@@ -31,6 +35,7 @@ private:
 
 	bool DisplayPropertiesWindow{ false };
 	bool DisplaySceneHierarchy{ false };
+	bool DisplayPerformanceMetrics{ false };
 
 public:
 
@@ -49,15 +54,24 @@ public:
 		//Assign both the render window and the currently loaded scene
 		RenderWindow = p_renderWindow;
 		CurrentlyLoadedScene = p_currentlyLoadedScene;
-
+		Metrics = new PerformanceMetrics;
 		//Initialize ImGui for SFML
 		ImGui::SFML::Init(*RenderWindow);
 	}
 
 	/**
+	 * Cleans up any pointers and deletes memory
+	 */
+	~EditorGui()
+	{
+		delete Metrics;
+	}
+
+
+	/**
 	 * Ran before render() to update or grab any properties from the scene to use when displaying a gui
 	 */
-	void Update();
+	void Update(const float p_deltaTime);
 	/**
 	 * Renders all ImGui windows, called after the update function
 	*/
@@ -72,5 +86,7 @@ private:
 	 * Displays the components of the CurrentlySelectedGameObject and their respective properties such as X,Y position
 	 */
 	void DisplayPropertiesGui() const;
+
+	void DisplayPerformanceMetricsGui(const float p_deltaTime) const;
 };
 

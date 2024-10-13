@@ -1,29 +1,58 @@
 #pragma once
 #include <string>
+#include <SFML/Window/Window.hpp>
+
+#include "Sprite.h"
 class IGraphics
 {
 protected:
-	//--Texture Variables--
-	std::string defaultWorkingPath = "Data/Textures/";	//This is the default directory for textures (Set to the data and textures folder)	
-	std::string errorTextureFileName = "Error.png";
+	/**
+	 * String that holds the default working directory path for texture assets
+	 */
+	std::string DefaultWorkingPath{ "Data/Textures/" };
+
+	/**
+	 * String that holds the default error texture file name within the working dir
+	 */
+	std::string ErrorTextureFileName{ "Error.png" };
 
 public:
-	//--Sprite Handling--
+	/**
+	 * Attempt to create a new sprite with the input ID
+	 * @param p_spriteId Sprite file name
+	 * @return True or false depending on whether it was successful in creating a new sprite
+	 */
+	virtual bool CreateSprite(const std::string& p_spriteId) = 0;
 
-	//Handles creating a sprite, pass the SpriteId(Aka the filepath name in default working path)
-	virtual bool CreateSprite(std::string& spriteId) = 0;
-	//Handles rendering a sprite at the given location
-	virtual bool RenderSprite(std::string& spriteId, float xPosition, float yPosition, int rows, int frame) = 0;
 
+	/**
+	 * Renders a given sprite at the location and frame input
+	 * @param p_sprite Sprite to render
+	 * @param p_xPosition X Position for sprite to be rendered at
+	 * @param p_yPosition Y Position for sprite to be rendered at
+	 * @param p_frame Used for sprite-sheets to define which frame to play
+	 * @return 
+	 */
+	virtual bool RenderSprite(const Sprite& p_sprite, const float p_xPosition, const float p_yPosition,  const int p_frame) = 0;
 
-	public:
+	protected:
 	//--Texture Handling--
-	
-	//Handles loading the initial error texture when constructor called
+
+	/**
+	 * Attempts to load the error texture
+	 */
 	virtual void TryLoadErrorTexture() = 0;
-	//Loads the texture onto a sprite via the fileName in default working dir
-	virtual void* TryLoadTextureByFileName( std::string& textureFileName) = 0;
-	//Unloads and deletes all textures on destructor
+
+	/**
+	 * Attemps to load a texture via its filename
+	 * @param p_textureFileName Filename of the texture in working dir
+	 * @return 
+	 */
+	virtual void* TryLoadTextureByFileName(const std::string& p_textureFileName) = 0;
+
+	/**
+	 * Unloads and deletes all textures
+	 */
 	virtual void UnloadAll() = 0;
 
 };

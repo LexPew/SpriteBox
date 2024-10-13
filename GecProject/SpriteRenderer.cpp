@@ -5,12 +5,12 @@
 
 void SpriteRenderer::Update(const float p_deltaTime)
 {
-	if (play && loop)
+	if (Play && Loop)
 	{
-		timer -= p_deltaTime * animationSpeedMultiplier;
-		if (timer <= 0)
+		Timer -= p_deltaTime * AnimationSpeedMultiplier;
+		if (Timer <= 0)
 		{
-			timer = 0.0833333333; //12FPS
+			Timer = 0.083f; //12FPS
 			PlayNextFrame();
 		}
 	}
@@ -18,21 +18,21 @@ void SpriteRenderer::Update(const float p_deltaTime)
 
 void SpriteRenderer::Render()
 {
-	Transform& transfrom = *Owner->GetComponent<Transform>();
-	graphicsHandler.RenderSprite(spriteId, transfrom.GetPosition().X, transfrom.GetPosition().Y, spriteSheetRows,spriteSheetCurrentFrame);
+	const Transform& transform = *Owner->GetComponent<Transform>();
+	GraphicsHandler->RenderSprite(CurrentSprite, transform.GetPosition().X, transform.GetPosition().Y, FrameCounter);
 }
 
 void SpriteRenderer::PlayNextFrame()
 {
 	//If we have reached the last frame reset counter to start frame
-	if (spriteSheetCurrentFrame >= spriteSheetRows - 1)
+	if (FrameCounter >= CurrentSprite.SpriteSheetRows - 1)
 	{
-		spriteSheetCurrentFrame = 0;
+		FrameCounter = 0;
 	}
 	else
 	{
 
-		spriteSheetCurrentFrame++;
+		FrameCounter++;
 	}
 }
 

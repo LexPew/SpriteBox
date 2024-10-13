@@ -3,7 +3,9 @@
 #include "Sprite.h"
 #include "SpriteRenderer.h"
 
-void EditorGui::Update()
+
+
+void EditorGui::Update(const float p_deltaTime)
 {
 
 	//Render our Editor Tools window, this is where all other menus will be accessed from via buttons
@@ -14,7 +16,12 @@ void EditorGui::Update()
 		DisplaySceneHierarchy = !DisplaySceneHierarchy;
 
 	}
+	if(ImGui::Button("Performance Metrics"))
+	{
+		DisplayPerformanceMetrics = !DisplayPerformanceMetrics;
+	}
 	DisplaySceneHierarchyGui();
+	DisplayPerformanceMetricsGui(p_deltaTime);
 
 	ImGui::End();
 }
@@ -95,7 +102,7 @@ void EditorGui::DisplayPropertiesGui() const
 						else if (type == "SpriteRenderer")
 						{
 							SpriteRenderer* spriteComp = dynamic_cast<SpriteRenderer*>(comp);
-							ImGui::Text("SpriteID: %s", spriteComp->GetSpriteID().c_str());
+							ImGui::Text("SpriteID: %s", spriteComp->GetSpriteId().c_str());
 							bool playState = spriteComp->GetPlayState();
 							if (ImGui::Checkbox("Playing", &playState))
 							{
@@ -120,5 +127,30 @@ void EditorGui::DisplayPropertiesGui() const
 
 			ImGui::EndChild();
 		}
+	}
+}
+
+void EditorGui::DisplayPerformanceMetricsGui(const float p_deltaTime) const
+{
+	Metrics->Update(p_deltaTime);
+
+	if (DisplayPerformanceMetrics)
+	{
+		ImGui::Begin("Performance Metrics");
+
+		//Smoothed Frame Rate Section
+
+		float smoothingFactor = Metrics->GetSmoothingFactor();
+		ImGui::Text("Smoothing Factor");
+		ImGui::SliderFloat(" ", &smoothingFactor, 0, .9f);
+		Metrics->SetSmoothingFactor(smoothingFactor);
+		ImGui::Text("Smoothed Frame-rate: %.0f", Metrics->GetAveragedFrameRate());
+
+		//FPS
+		ImGui::Text("Frame-rate %.0f", Metrics->GetFrameRate());
+
+		//Frame rate sample section
+		ImGui::PlotLines("Frame rate graph", Metrics->GetSamples().data(), Metrics->GetMaxSamples());
+		ImGui::End();
 	}
 }

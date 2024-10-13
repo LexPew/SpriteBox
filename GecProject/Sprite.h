@@ -1,12 +1,24 @@
 #pragma once
-class Sprite
+#include <string>
+struct Sprite
 {
-public:
-	//Holds the sprites position in the game
-	struct position
+	std::string SpriteId{"Null"};
+
+	int SpriteSheetRows{ 0 };
+
+
+	Sprite() = default;
+
+	/**
+	 * Creates a new Sprite object with the input values
+	 * @param p_spriteId Texture file name in working dir
+	 * @param p_spriteSheetRows Number of rows
+
+	 */
+	Sprite(const std::string& p_spriteId, const int p_spriteSheetRows)
 	{
-		int x{ 0 };
-		int y{ 0 };
-	};
+		SpriteId = p_spriteId;
+		SpriteSheetRows = p_spriteSheetRows;
+	}
 };
 
