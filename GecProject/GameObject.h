@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <typeindex>
 #include <unordered_map>
 #include "Transform.h"
 #include "iostream"
@@ -19,7 +20,7 @@ private:
 	/**
 	 * Unordered map that holds all the currently attached components to this game-object via their type, and a ptr
 	 */
-	std::unordered_map<std::string, Component*> AttachedComponents;
+	std::unordered_map<std::type_index, Component*> AttachedComponents;
 
 public:
 
@@ -65,7 +66,7 @@ public:
 	/**
 	 * @return Constant reference to AttachedComponents on this game-object
 	 */
-	const std::unordered_map<std::string, Component*>& GetComponents() const;
+	const std::unordered_map<std::type_index, Component*>& GetComponents() const;
 
 	/**
 	 * Tries to attach p_component will return a bool depending on the result
@@ -78,7 +79,7 @@ public:
 	 * Removes a component via its type, use GetType() to receive the type from a component
 	 * @param p_componentType This is the type of component to remove
 	 */
-	void RemoveComponent(const std::string& p_componentType);
+	void RemoveComponent(const Component& p_componentType);
 
 	/**
 	 * Attempts to retrieve a component based on the input type

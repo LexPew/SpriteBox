@@ -10,6 +10,7 @@
 #include "SFMLGraphics.h"
 
 //GameObject related
+#include "BoundingBox.h"
 #include "GameObject.h"
 #include "SpriteRenderer.h"
 #include "Scene.h"
@@ -48,9 +49,10 @@ int main()
 
     //Create a starting scene and populate it with some game-objects with sprites
     currentlyLoadedScene = new Scene(graphicsHandler);
+        Sprite newSprite("Attack.png", 8);
+    
 
-    Sprite newSprite("Attack.png", 8);
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 100; i++)
     {
         std::string name = "GameObj" + std::to_string(i);
         GameObject* obj = new GameObject(name);
@@ -58,7 +60,6 @@ int main()
         obj->AttachComponent(new SpriteRenderer(newSprite, graphicsHandler));
         currentlyLoadedScene->AddGameObject((obj));
    }    
-
     EditorGui editorGui(&window, currentlyLoadedScene);
     sf::Clock uiDeltaClock;
   

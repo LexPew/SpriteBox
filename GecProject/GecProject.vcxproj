@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EditorGUI.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="EditorGUI.h" />
     <ClInclude Include="ExternalHeaders.h" />
