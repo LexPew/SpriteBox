@@ -71,7 +71,10 @@ void EditorGui::DisplayPropertiesGui() const
 		//Create it as a child of scene heir so it displays inside its window
 		if (ImGui::BeginChild("SceneHierarchy"))
 		{
-			if (ImGui::CollapsingHeader((CurrentlySelectedGameObject->GetName() + " properties").c_str()))
+			std::string propertiesHeader = CurrentlySelectedGameObject->GetName() + " properties";
+
+
+			if (ImGui::CollapsingHeader((propertiesHeader.c_str())))
 			{
 				//List each component
 				for (const auto& component : CurrentlySelectedGameObject->GetComponents())
@@ -80,6 +83,7 @@ void EditorGui::DisplayPropertiesGui() const
 					std::string type = component.second->GetType();
 					//ImGui::Text(component.second->GetType().c_str());
 					ImGui::PushStyleColor(ImGuiCol_Text, TEAL_GREEN);
+
 					if (ImGui::CollapsingHeader(component.second->GetType().c_str()))
 					{
 						ImGui::PushStyleColor(ImGuiCol_Text, WHITE);
@@ -120,8 +124,10 @@ void EditorGui::DisplayPropertiesGui() const
 
 
 						ImGui::PopStyleColor();
+
 					}
 					ImGui::PopStyleColor();
+
 				}
 			}
 

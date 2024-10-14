@@ -18,7 +18,6 @@ private:
 
 	//Animation 
 	bool Play{ true };
-	bool PlayOnStart{ true };
 	bool Loop{ true };
 
 	float AnimationSpeedMultiplier{ 1 };
