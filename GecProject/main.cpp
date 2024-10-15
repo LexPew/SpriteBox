@@ -61,8 +61,9 @@ int main()
         obj->AttachComponent(new SpriteRenderer(newSprite, graphicsHandler));
         obj->AttachComponent(new BoxCollider);
         currentlyLoadedScene->AddGameObject((obj));
-   }    
-    EditorGui editorGui(&window, currentlyLoadedScene);
+    }
+
+	EditorGui editorGui(&window, currentlyLoadedScene);
     sf::Clock uiDeltaClock;
   
     currentlyLoadedScene->Start();

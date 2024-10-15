@@ -37,7 +37,7 @@ public:
 	};
 	void Update(float deltaTime) 
 	{
-		for (int i = 0; i < gameObjects.size(); i++)
+		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
 			GameObject* gameObject1 = gameObjects[i];
 			const BoxCollider* collider1 = gameObject1->GetComponent<BoxCollider>();
@@ -47,7 +47,7 @@ public:
 			{
 				continue;
 			}
-			for (int j = i + 1; j < gameObjects.size(); j++)
+			for (size_t j = i + 1; j < gameObjects.size(); j++)
 			{
 
 				GameObject* gameObject2 = gameObjects[j];
@@ -68,7 +68,9 @@ public:
 
 			gameObject1->Update(deltaTime);
 		}
-	};
+	}
+
+
 	void Render() 
 	{
 		for (GameObject* gameObject : gameObjects)

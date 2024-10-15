@@ -16,6 +16,9 @@
     <Filter Include="IMGUI">
       <UniqueIdentifier>{51012547-714d-4431-a099-82481217d4e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Maths">
+      <UniqueIdentifier>{6e6d24dc-5a3c-4abc-a66f-51eb5bcdc137}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,9 +113,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -130,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\Maths</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
