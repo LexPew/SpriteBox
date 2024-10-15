@@ -90,7 +90,11 @@ public:
 	{
 		Play = p_state;
 	}
-	
+
+	const Sprite& GetSprite() const
+	{
+		return CurrentSprite;
+	}
 
 	virtual void Start() override;
 	virtual void Update(const float p_deltaTime) override;

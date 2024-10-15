@@ -10,9 +10,10 @@ protected:
 	/**
 	 * Pointer to the Game-object that owns this component
 	 */
-	GameObject* Owner{nullptr};
+	GameObject* Owner{ nullptr };
 
 public:
+
 	virtual ~Component() = default;
 
 	/**

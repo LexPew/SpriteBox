@@ -45,4 +45,7 @@ struct Vector2
 	{
 		return { X * p_scalar, Y * p_scalar };
 	}
+
 };
+
+

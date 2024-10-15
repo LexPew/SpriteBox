@@ -11,6 +11,7 @@
 
 //GameObject related
 #include "BoundingBox.h"
+#include "BoxCollider.h"
 #include "GameObject.h"
 #include "SpriteRenderer.h"
 #include "Scene.h"
@@ -42,28 +43,29 @@ int main()
 
 
     // Create the SFML window
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "GEC Engine");
+    sf::RenderWindow window(sf::VideoMode(800, 800), "GEC Engine");
     // Create the graphics handler (SFML, SDL, etc.)
     IGraphics* graphicsHandler = new SFMLGraphics(&window);
 
 
     //Create a starting scene and populate it with some game-objects with sprites
     currentlyLoadedScene = new Scene(graphicsHandler);
-        Sprite newSprite("Attack.png", 8);
-    
+    //Sprite newSprite("Attack.png", 8, { 432,512 });
+    Sprite newSprite("A.png", 1, { 268,455 });
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 2; i++)
     {
         std::string name = "GameObj" + std::to_string(i);
         GameObject* obj = new GameObject(name);
-        obj->GetComponent<Transform>()->SetPosition(Vector2(i * 150.0f, i * 10.0f));
+        obj->GetComponent<Transform>()->SetPosition(Vector2(i * 100.0f, i * 100.0f));
         obj->AttachComponent(new SpriteRenderer(newSprite, graphicsHandler));
+        obj->AttachComponent(new BoxCollider);
         currentlyLoadedScene->AddGameObject((obj));
    }    
     EditorGui editorGui(&window, currentlyLoadedScene);
     sf::Clock uiDeltaClock;
   
-
+    currentlyLoadedScene->Start();
 
     while (window.isOpen())
     {

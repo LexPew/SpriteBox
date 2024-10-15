@@ -1,4 +1,6 @@
 #pragma once
+#include "BoundingBox.h"
+#include "BoxCollider.h"
 #include "GameObject.h"
 //Scene saves all gameobejcts and handles updating them, and removing them
 class IGraphics;
@@ -35,9 +37,36 @@ public:
 	};
 	void Update(float deltaTime) 
 	{
-		for (GameObject* gameObject : gameObjects)
+		for (int i = 0; i < gameObjects.size(); i++)
 		{
-			gameObject->Update(deltaTime);
+			GameObject* gameObject1 = gameObjects[i];
+			const BoxCollider* collider1 = gameObject1->GetComponent<BoxCollider>();
+
+			//If game-object doesn't have a box collider skip it
+			if (!collider1)
+			{
+				continue;
+			}
+			for (int j = i + 1; j < gameObjects.size(); j++)
+			{
+
+				GameObject* gameObject2 = gameObjects[j];
+
+				const BoxCollider* collider2 = gameObject2->GetComponent<BoxCollider>();
+
+				//If game-object doesn't have a box collider skip it
+				if (!collider2)
+				{
+					continue;
+				}
+				// Check if the colliders are intersecting
+				if (collider1->ColliderBox.Intersects(collider2->ColliderBox))
+				{
+
+				}
+			}
+
+			gameObject1->Update(deltaTime);
 		}
 	};
 	void Render() 
@@ -46,7 +75,7 @@ public:
 		{
 			gameObject->Render();
 		}
-	};
+	};	
 
 	void Cleanup() 
 	{

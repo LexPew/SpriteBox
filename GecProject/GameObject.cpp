@@ -20,6 +20,7 @@ bool GameObject::AttachComponent(Component* p_component)
 	}
 	else //Add the component to the unordered map
 	{
+
 		AttachedComponents[componentType] = p_component;
 		p_component->SetOwner(this);
 		return true;

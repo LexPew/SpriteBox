@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 #include "Vector2.h"
 
 class BoundingBox
@@ -19,6 +21,10 @@ public:
 
 		BoundSize = p_boundsSize;
 	}
+	void SetSize(const Vector2& p_boundingSize)
+	{
+		BoundSize = p_boundingSize;
+	}
 
 	void SetPosition(const Vector2& p_newPosition);
 
@@ -34,24 +40,26 @@ public:
 
 	bool Intersects(const BoundingBox& p_otherBox) const
 	{
-		if(Position.X > p_otherBox.GetBounds().X)
+		// Get the bounds (position and size) of both boxes
+		const auto& otherPos = p_otherBox.GetPosition();
+		const auto& otherBounds = p_otherBox.GetBounds();
+
+		// Check for separation on the X axis
+		if (Position.X + BoundSize.X < otherPos.X || Position.X > otherPos.X + otherBounds.X)
 		{
-			return false; //To the right of the other box
-		}
-		if(Position.Y > p_otherBox.GetBounds().Y)
-		{
-			return false; //Below the other box
-		}
-		if (BoundSize.X < p_otherBox.GetPosition().X)
-		{
-			return false; //To the left of the other box
-		}
-		if(BoundSize.Y < p_otherBox.GetBounds().Y)
-		{
-			return false; // Above the other box
+			return false; // No overlap on the X axis
 		}
 
+		// Check for separation on the Y axis
+		if (Position.Y + BoundSize.Y < otherPos.Y || Position.Y > otherPos.Y + otherBounds.Y)
+		{
+			return false; // No overlap on the Y axis
+		}
+
+		// If both checks passed, the boxes intersect
 		return true;
 	}
+
+
 };
 
