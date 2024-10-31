@@ -16,15 +16,16 @@ protected:
 	 */
 	std::string ErrorTextureFileName{ "Error.png" };
 
+
 public:
+	static IGraphics* GraphicsHandlerInstance;
+
 	/**
 	 * Attempt to create a new sprite with the input ID
 	 * @param p_spriteId Sprite file name
 	 * @return True or false depending on whether it was successful in creating a new sprite
 	 */
 	virtual bool CreateSprite(const std::string& p_spriteId) = 0;
-
-
 	/**
 	 * Renders a given sprite at the location and frame input
 	 * @param p_sprite Sprite to render
@@ -35,7 +36,15 @@ public:
 	 */
 	virtual bool RenderSprite(const Sprite& p_sprite, const float p_xPosition, const float p_yPosition,  const int p_frame) = 0;
 
-	protected:
+	/**
+	 * Creates a bounding box for an input sprite
+	 * @param p_spriteId Sprite file name
+	 * @return 
+	 */
+	virtual Vector2 CalculateBounds(const Sprite& p_spriteId) = 0;
+
+	virtual void DrawBounds(const BoundingBox& p_boundingBox) = 0;
+protected:
 	//--Texture Handling--
 
 	/**

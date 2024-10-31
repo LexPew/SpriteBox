@@ -37,6 +37,15 @@ struct Vector2
 	}
 
 	/**
+	 * 
+	 * @return Inverse version of the vector
+	 */
+	Vector2 operator-() const
+	{
+		return {-X,-Y};
+	}
+
+	/**
 	 * Multiplies both axis by the input scalar value
 	 * @param p_scalar Multiplier
 	 * @return Finished operation
@@ -45,7 +54,6 @@ struct Vector2
 	{
 		return { X * p_scalar, Y * p_scalar };
 	}
-
 	/**
 	 * Compares two vectors to check whether they are equal
 	 * @param p_vectorB Vector to compare

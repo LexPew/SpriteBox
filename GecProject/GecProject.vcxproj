@@ -138,7 +138,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoundingBox.cpp" />
-    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EditorGUI.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -150,6 +149,7 @@
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PerformanceMetrics.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RedirectCout.h" />
     <ClCompile Include="Scene.cpp" />
@@ -160,13 +160,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox.h" />
-    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="EditorGUI.h" />
     <ClInclude Include="ExternalHeaders.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="PerformanceMetrics.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />

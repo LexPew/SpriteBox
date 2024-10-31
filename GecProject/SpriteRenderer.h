@@ -38,7 +38,6 @@ public:
 		GraphicsHandler = p_graphicsHandler;
 		CurrentSprite = p_spriteSettings;
 	}
-
 	/**
 	* @return The Sprite ID
 	*/

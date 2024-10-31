@@ -19,7 +19,7 @@ void SpriteRenderer::Update(const float p_deltaTime)
 void SpriteRenderer::Render()
 {
 	const Transform& transform = *Owner->GetComponent<Transform>();
-	GraphicsHandler->RenderSprite(CurrentSprite, transform.GetPosition().X, transform.GetPosition().Y, FrameCounter);
+	IGraphics::GraphicsHandlerInstance->RenderSprite(CurrentSprite, transform.GetPosition().X, transform.GetPosition().Y, FrameCounter);
 }
 
 void SpriteRenderer::PlayNextFrame()

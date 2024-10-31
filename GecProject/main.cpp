@@ -11,11 +11,11 @@
 
 //GameObject related
 #include "BoundingBox.h"
-#include "BoxCollider.h"
 #include "GameObject.h"
 #include "SpriteRenderer.h"
 #include "Scene.h"
 #include "EditorGUI.h"
+#include "Physics.h"
 #include "Sprite.h"
 
 
@@ -51,18 +51,16 @@ int main()
     //Create a starting scene and populate it with some game-objects with sprites
     currentlyLoadedScene = new Scene(graphicsHandler);
     //Sprite newSprite("Attack.png", 8, { 432,512 });
-    Sprite newSprite("A.png", 1, { 268,455 });
-
+    
     for (int i = 0; i < 2; i++)
     {
         std::string name = "GameObj" + std::to_string(i);
         GameObject* obj = new GameObject(name);
-        obj->GetComponent<Transform>()->SetPosition(Vector2(i * 100.0f, i * 100.0f));
-        obj->AttachComponent(new SpriteRenderer(newSprite, graphicsHandler));
-        obj->AttachComponent(new BoxCollider);
+        obj->GetComponent<Transform>()->SetPosition(Vector2(i * 500.0f, 0));
+        obj->AttachComponent(new SpriteRenderer(Sprite("A.png", 1), graphicsHandler));
+        obj->AttachComponent(new Physics());
         currentlyLoadedScene->AddGameObject((obj));
     }
-
 	EditorGui editorGui(&window, currentlyLoadedScene);
     sf::Clock uiDeltaClock;
   

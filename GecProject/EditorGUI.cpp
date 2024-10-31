@@ -118,6 +118,22 @@ void EditorGui::DisplayPropertiesGui() const
 								spriteComp->SetSpeed(animationMultiplierSpeed);
 							}
 						}
+						else if (type == "Physics")
+						{
+							//Const as we are just grabbing xPos and yPos then assigning them to editable integers
+							Physics* physicsComp = dynamic_cast<Physics*>(comp);
+							const float xVelocity = physicsComp->GetVelocity().X;
+							const float yVelocity = physicsComp->GetVelocity().Y;
+
+							float xEditable = xVelocity;
+							float yEditable = yVelocity;
+
+							ImGui::Text("Velocity: ");
+							ImGui::DragFloat("X Vel: ", &xEditable);
+							ImGui::DragFloat("Y Vel: ", &yEditable);
+
+							physicsComp->SetVelocity({ xEditable,yEditable });
+						}
 						ImGui::PopStyleColor();
 
 						ImGui::PushStyleColor(ImGuiCol_Text, RED);

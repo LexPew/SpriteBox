@@ -39,7 +39,7 @@ public:
 	 */
 	void SetOwner(GameObject* p_gameObject)
 	{
-		Owner = p_gameObject;
+		this->Owner = p_gameObject;
 	}
 
 	/**

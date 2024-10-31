@@ -1,7 +1,7 @@
 #pragma once
 #include "BoundingBox.h"
-#include "BoxCollider.h"
 #include "GameObject.h"
+#include "Physics.h"
 //Scene saves all gameobejcts and handles updating them, and removing them
 class IGraphics;
 
@@ -28,19 +28,19 @@ public:
 	{
 		return gameObjects;
 	}
-	void Start() 
+	void Start() const
 	{
 		for (GameObject* gameObject : gameObjects)
 		{
 			gameObject->Start();
 		}
 	};
-	void Update(float deltaTime) 
+	void Update(float p_deltaTime) const
 	{
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
 			GameObject* gameObject1 = gameObjects[i];
-			const BoxCollider* collider1 = gameObject1->GetComponent<BoxCollider>();
+			Physics* collider1 = gameObject1->GetComponent<Physics>();
 
 			//If game-object doesn't have a box collider skip it
 			if (!collider1)
@@ -52,7 +52,7 @@ public:
 
 				GameObject* gameObject2 = gameObjects[j];
 
-				const BoxCollider* collider2 = gameObject2->GetComponent<BoxCollider>();
+				Physics* collider2 = gameObject2->GetComponent<Physics>();
 
 				//If game-object doesn't have a box collider skip it
 				if (!collider2)
@@ -60,13 +60,18 @@ public:
 					continue;
 				}
 				// Check if the colliders are intersecting
-				if (collider1->ColliderBox.Intersects(collider2->ColliderBox))
+				if (collider1->GetBounds().Intersects(collider2->GetBounds()))
 				{
-
+					collider1->OnCollide(collider2->GetBounds());
+					collider2->OnCollide(collider1->GetBounds());
 				}
 			}
+		 gameObject1->Update(p_deltaTime);
+		 }
 
-			gameObject1->Update(deltaTime);
+		for (GameObject* gameObject : gameObjects)
+		{
+			gameObject->Update(p_deltaTime);
 		}
 	}
 

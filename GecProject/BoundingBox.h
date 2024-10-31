@@ -6,56 +6,92 @@
 
 class BoundingBox
 {
-private:
-	Vector2 Position{ 0,0 };
 
-	Vector2 BoundSize{ 0,0 };
 
 public:
+	/**
+	 * Represents the top left point in space Y,X
+	 */
+	float Top{0};
+	float Left{ 0 };
 
+	/**
+	* Represents the bottom right point in space Y,X
+	*/
+	float Bottom{ 0 };
+	float Right{ 0 };
+
+	float Width{ 0 };
+	float Height{ 0 };
 	BoundingBox() = default;
 
-	BoundingBox(const Vector2& p_position, const Vector2& p_boundsSize)
+	/**
+	 * Creates a new bounding box with the input dimensions
+	 */
+	BoundingBox(const float p_top, const float p_left, const float p_bottom, const float p_right)
 	{
-		Position = p_position;
+		Top = p_top;
+		Left = p_left;
+		Bottom = p_bottom;
+		Right = p_right;
 
-		BoundSize = p_boundsSize;
-	}
-	void SetSize(const Vector2& p_boundingSize)
-	{
-		BoundSize = p_boundingSize;
-	}
-
-	void SetPosition(const Vector2& p_newPosition);
-
-	const Vector2& GetBounds() const
-	{
-		return BoundSize;
+		Width = Right - Left;
+		Height = Bottom - Top;
 	}
 
-	const Vector2& GetPosition() const
+	void Translate(const float p_directionX, const float p_directionY)
 	{
-		return Position;
+		Top += p_directionY;
+		Bottom += p_directionY;
+
+		Left += p_directionX;
+		Right += p_directionX;
+	}
+
+	void SetPosition(const Vector2& p_newPosition)
+	{
+		Top = p_newPosition.Y;
+		Left = p_newPosition.X;
+
+		Bottom = p_newPosition.Y + Height;
+		Right = p_newPosition.X + Width;
+	}
+
+	float GetWidth() const
+	{
+		return (Right - Left);
+	}
+	float GetHeight() const
+	{
+		return (Bottom - Top);
+	}
+
+	Vector2 GetPosition() const
+	{
+		return {Top,Left};
 	}
 
 	bool Intersects(const BoundingBox& p_otherBox) const
 	{
-		// Get the bounds (position and size) of both boxes
-		const auto& otherPos = p_otherBox.GetPosition();
-		const auto& otherBounds = p_otherBox.GetBounds();
-
-		// Check for separation on the X axis
-		if (Position.X + BoundSize.X < otherPos.X || Position.X > otherPos.X + otherBounds.X)
+		if(Left > p_otherBox.Right)
 		{
-			return false; // No overlap on the X axis
+			return false;
+		}
+		if(Top > p_otherBox.Bottom)
+		{
+			return  false;
+		}
+		if(Bottom < p_otherBox.Top)
+		{
+			return false;
+		}
+		if(Right < p_otherBox.Left)
+		{
+			return  false;
 		}
 
-		// Check for separation on the Y axis
-		if (Position.Y + BoundSize.Y < otherPos.Y || Position.Y > otherPos.Y + otherBounds.Y)
-		{
-			return false; // No overlap on the Y axis
-		}
 
+		
 		// If both checks passed, the boxes intersect
 		return true;
 	}

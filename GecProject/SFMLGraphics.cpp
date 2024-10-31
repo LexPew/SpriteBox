@@ -42,6 +42,32 @@ bool SFMLGraphics::RenderSprite(const Sprite& p_sprite, const float p_xPosition,
 	return true;
 }
 
+Vector2 SFMLGraphics::CalculateBounds(const Sprite& p_spriteId)
+{
+	//First check if we already have a sprite created that is associated with the objects ID
+	const auto spriteToFind = loadedSprites.find(p_spriteId.SpriteId);
+
+	//If we have already created a sprite for this object Id fetch the texture and calculate the bounds
+	if (spriteToFind == loadedSprites.end())
+	{
+		CreateSprite(p_spriteId.SpriteId);
+	}
+	const float ySize = (loadedTextures[p_spriteId.SpriteId]->getSize().y / p_spriteId.SpriteSheetRows);
+	const float xSize = loadedTextures[p_spriteId.SpriteId]->getSize().x;
+	std::cout << "SIZED:::" << xSize << "& " << ySize << "\n";
+	return { xSize,ySize };
+
+}
+
+void SFMLGraphics::DrawBounds(const BoundingBox& p_boundingBox)
+{
+	BoundSprite.setTextureRect({ (int)p_boundingBox.Left, (int)p_boundingBox.Top
+	, (int)p_boundingBox.Width, (int)p_boundingBox.Height });
+	BoundSprite.setPosition(p_boundingBox.Left, p_boundingBox.Top);
+
+	renderWindow->draw(BoundSprite);
+}
+
 //Tries to load the error texture
 void SFMLGraphics::TryLoadErrorTexture()
 {
