@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{5d00da3c-bd17-4659-a7fe-b8c1d873d87e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Structure">
+      <UniqueIdentifier>{ce4535a8-e11a-43d8-9d95-8dd63918b236}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -90,6 +93,9 @@
     <ClCompile Include="Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalHeaders.h">
@@ -141,6 +147,9 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

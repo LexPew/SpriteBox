@@ -10,7 +10,7 @@ private:
 	Transform *TransformComp{ nullptr };
 	Vector2 Velocity{ 0,0 };
 	BoundingBox SpriteBounds;
-	float CollisionOffset{ 0.1f };
+	float CollisionOffset{ .1f };
 public:
 	Physics() = default;
 

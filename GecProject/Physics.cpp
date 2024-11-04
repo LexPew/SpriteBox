@@ -39,7 +39,7 @@ void Physics::Update(const float p_deltaTime)
 
 void Physics::Render()
 {
-    IGraphics::GraphicsHandlerInstance->DrawBounds(SpriteBounds);
+    //IGraphics::GraphicsHandlerInstance->DrawBounds(SpriteBounds);
 }
 
 void Physics::OnCollide(const BoundingBox& p_otherObject)

@@ -54,7 +54,7 @@ Vector2 SFMLGraphics::CalculateBounds(const Sprite& p_spriteId)
 	}
 	const float ySize = (loadedTextures[p_spriteId.SpriteId]->getSize().y / p_spriteId.SpriteSheetRows);
 	const float xSize = loadedTextures[p_spriteId.SpriteId]->getSize().x;
-	std::cout << "SIZED:::" << xSize << "& " << ySize << "\n";
+	
 	return { xSize,ySize };
 
 }
@@ -129,6 +129,13 @@ void* SFMLGraphics::TryLoadTextureByFileName(const std::string& p_textureFileNam
 //Loops through each held pointer in loadedTextures and deletes them
 void SFMLGraphics::UnloadAll()
 {
+
+	//Delete all the second values (pointers) from loaded sprites map
+	for (const auto& pair : loadedSprites)
+	{
+		delete pair.second;
+	}
+	loadedSprites.clear();
 	//Delete all the second values (pointers) from loaded textures map
 	for (const auto& pair : loadedTextures)
 	{
@@ -136,6 +143,9 @@ void SFMLGraphics::UnloadAll()
 	}
 	//Clear the map
 	loadedTextures.clear();
+
+
+	
 }
 
 

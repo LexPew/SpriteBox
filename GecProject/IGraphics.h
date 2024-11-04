@@ -19,7 +19,8 @@ protected:
 
 public:
 	static IGraphics* GraphicsHandlerInstance;
-
+	IGraphics() = default;
+	virtual ~IGraphics() = default;
 	/**
 	 * Attempt to create a new sprite with the input ID
 	 * @param p_spriteId Sprite file name
