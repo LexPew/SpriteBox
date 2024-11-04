@@ -6,14 +6,23 @@
 class Physics : public Component
 {
 private:
+	int Bitmask{0};
 	float Gravity = 0;
 	Transform *TransformComp{ nullptr };
 	Vector2 Velocity{ 0,0 };
 	BoundingBox SpriteBounds;
 	float CollisionOffset{ .1f };
 public:
-	Physics() = default;
 
+	Physics(const int p_collisionBitMask)
+	{
+		Bitmask = p_collisionBitMask;
+	}
+
+	int GetBitMask() const
+	{
+		return Bitmask;
+	}
 	const BoundingBox& GetBounds() const
 	{
 		return SpriteBounds;

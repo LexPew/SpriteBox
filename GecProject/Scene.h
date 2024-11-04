@@ -60,12 +60,17 @@ public:
 				{
 					continue;
 				}
-				// Check if the colliders are intersecting
-				if (collider1->GetBounds().Intersects(collider2->GetBounds()))
+				//Compare their bitmasks to see if they should collide before running intersection
+				if(collider1->GetBitMask() & collider2->GetBitMask())
 				{
-					collider1->OnCollide(collider2->GetBounds());
-					collider2->OnCollide(collider1->GetBounds());
+					// Check if the colliders are intersecting
+					if (collider1->GetBounds().Intersects(collider2->GetBounds()))
+					{
+						collider1->OnCollide(collider2->GetBounds());
+						collider2->OnCollide(collider1->GetBounds());
+					}
 				}
+	
 			}
 		 gameObject1->Update(p_deltaTime);
 		 }

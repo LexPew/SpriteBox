@@ -133,6 +133,8 @@ void EditorGui::DisplayPropertiesGui() const
 							ImGui::DragFloat("Y Vel: ", &yEditable);
 
 							physicsComp->SetVelocity({ xEditable,yEditable });
+
+							ImGui::Text("Collision Bitmask: %d", physicsComp->GetBitMask());
 						}
 						ImGui::PopStyleColor();
 

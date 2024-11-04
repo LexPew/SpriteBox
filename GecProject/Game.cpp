@@ -18,11 +18,20 @@ void Game::Start()
 
     for (int i = 0; i < 3; i++)
     {
+
         std::string name = "GameObj" + std::to_string(i);
         GameObject* obj = new GameObject(name);
         obj->GetComponent<Transform>()->SetPosition(Vector2(i * 500.0f, 0));
         obj->AttachComponent(new SpriteRenderer(Sprite("A.png", 1), GraphicsHandler));
-        obj->AttachComponent(new Physics());
+        if (i == 1)
+        {
+            obj->AttachComponent(new Physics(2));
+        }
+        else
+        {
+            obj->AttachComponent(new Physics(1));
+        }
+
         CurrentlyLoadedScene->AddGameObject((obj));
     }
 
