@@ -61,11 +61,15 @@ Vector2 SFMLGraphics::CalculateBounds(const Sprite& p_spriteId)
 
 void SFMLGraphics::DrawBounds(const BoundingBox& p_boundingBox)
 {
-	BoundSprite.setTextureRect({ (int)p_boundingBox.Left, (int)p_boundingBox.Top
-	, (int)p_boundingBox.Width, (int)p_boundingBox.Height });
-	BoundSprite.setPosition(p_boundingBox.Left, p_boundingBox.Top);
+	if(DebugShowBoundingBoxes)
+	{
+		BoundSprite.setTextureRect({ (int)p_boundingBox.Left, (int)p_boundingBox.Top
+		, (int)p_boundingBox.Width, (int)p_boundingBox.Height });
+		BoundSprite.setPosition(p_boundingBox.Left, p_boundingBox.Top);
 
-	renderWindow->draw(BoundSprite);
+		renderWindow->draw(BoundSprite);
+	}
+
 }
 
 //Tries to load the error texture

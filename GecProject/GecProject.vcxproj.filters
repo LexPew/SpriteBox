@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Structure">
       <UniqueIdentifier>{ce4535a8-e11a-43d8-9d95-8dd63918b236}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics &amp; Collisions">
+      <UniqueIdentifier>{44c6d1eb-1dd5-40b9-87c9-df21a615b4f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,6 +99,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalHeaders.h">
@@ -146,10 +152,22 @@
     <ClInclude Include="TextureUtil.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionLayers.h">
+      <Filter>Header Files\Physics &amp; Collisions</Filter>
+    </ClInclude>
     <ClInclude Include="Physics.h">
-      <Filter>Header Files\Maths</Filter>
+      <Filter>Header Files\Physics &amp; Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Physics &amp; Collisions</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
+      <Filter>Header Files\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

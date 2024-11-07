@@ -121,6 +121,7 @@ public:
 	 */
 	void Render();
 
+
 private:
 	/**
 	 * Deletes all component pointers in AttachedComponents and cleans up

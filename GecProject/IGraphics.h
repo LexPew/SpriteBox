@@ -16,7 +16,7 @@ protected:
 	 */
 	std::string ErrorTextureFileName{ "Error.png" };
 
-
+	bool DebugShowBoundingBoxes{false};
 public:
 	static IGraphics* GraphicsHandlerInstance;
 	IGraphics() = default;
@@ -45,6 +45,11 @@ public:
 	virtual Vector2 CalculateBounds(const Sprite& p_spriteId) = 0;
 
 	virtual void DrawBounds(const BoundingBox& p_boundingBox) = 0;
+
+	void ToggleDebugBounds()
+	{
+		DebugShowBoundingBoxes = !DebugShowBoundingBoxes;
+	}
 protected:
 	//--Texture Handling--
 

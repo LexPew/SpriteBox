@@ -1,5 +1,6 @@
 #include "EditorGUI.h"
 
+#include "IGraphics.h"
 #include "Sprite.h"
 #include "SpriteRenderer.h"
 
@@ -19,6 +20,10 @@ void EditorGui::Update(const float p_deltaTime)
 	if(ImGui::Button("Performance Metrics"))
 	{
 		DisplayPerformanceMetrics = !DisplayPerformanceMetrics;
+	}
+	if(ImGui::Button("Toggle bounding boxes"))
+	{
+		IGraphics::GraphicsHandlerInstance->ToggleDebugBounds();
 	}
 	DisplaySceneHierarchyGui();
 	DisplayPerformanceMetricsGui(p_deltaTime);
@@ -134,7 +139,6 @@ void EditorGui::DisplayPropertiesGui() const
 
 							physicsComp->SetVelocity({ xEditable,yEditable });
 
-							ImGui::Text("Collision Bitmask: %d", physicsComp->GetBitMask());
 						}
 						ImGui::PopStyleColor();
 

@@ -41,7 +41,7 @@ public:
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
 			GameObject* gameObject1 = gameObjects[i];
-			Physics* collider1 = gameObject1->GetComponent<Physics>();
+			Collider* collider1 = gameObject1->GetComponent<Collider>();
 
 			//If game-object doesn't have a box collider skip it
 			if (!collider1)
@@ -53,7 +53,7 @@ public:
 
 				GameObject* gameObject2 = gameObjects[j];
 
-				Physics* collider2 = gameObject2->GetComponent<Physics>();
+				Collider* collider2 = gameObject2->GetComponent<Collider>();
 
 				//If game-object doesn't have a box collider skip it
 				if (!collider2)
@@ -64,10 +64,10 @@ public:
 				if(collider1->GetBitMask() & collider2->GetBitMask())
 				{
 					// Check if the colliders are intersecting
-					if (collider1->GetBounds().Intersects(collider2->GetBounds()))
+					if (collider1->GetCollisionBounds().Intersects(collider2->GetCollisionBounds()))
 					{
-						collider1->OnCollide(collider2->GetBounds());
-						collider2->OnCollide(collider1->GetBounds());
+						collider1->OnCollide(collider2->GetCollisionBounds());
+						collider2->OnCollide(collider1->GetCollisionBounds());
 					}
 				}
 	

@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EditorGUI.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -161,6 +162,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionEvent.h" />
+    <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="CollisionListener.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="EditorGUI.h" />
     <ClInclude Include="ExternalHeaders.h" />
