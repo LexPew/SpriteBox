@@ -1,10 +1,10 @@
 #pragma once
-#include "BoundingBox.h"
+#include "AABBBoundingBox.h"
 #include "GameObject.h"
 
 struct CollisionEvent
 {
 	GameObject* OtherGameObject;
-	BoundingBox OtherBoundingBox;
+	AABBBoundingBox OtherBoundingBox;
 };
 

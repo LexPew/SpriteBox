@@ -18,10 +18,11 @@ private:
 	sf::Image	BoundsImage;
 	sf::Texture BoundsTexture;
 	sf::Sprite	BoundSprite;
+
 public:
 
 
-	SFMLGraphics(sf::RenderWindow *p_newRenderWindow)
+	SFMLGraphics(sf::RenderWindow* p_newRenderWindow)
 	{
 		//Singleton 
 		GraphicsHandlerInstance = this;
@@ -29,7 +30,7 @@ public:
 		renderWindow = p_newRenderWindow;
 		TryLoadErrorTexture();
 
-		BoundsImage.create(100,100, sf::Color(0, 255, 0, 50));
+		BoundsImage.create(100, 100, sf::Color::White);
 		BoundsTexture.loadFromImage(BoundsImage);
 		BoundSprite.setTexture(BoundsTexture);
 	}
@@ -41,7 +42,7 @@ public:
 	bool CreateSprite(const std::string& p_spriteId) override;
 	bool RenderSprite(const Sprite& p_sprite, const float p_xPosition, const float p_yPosition, const int p_frame) override;
 	Vector2 CalculateBounds(const Sprite& p_spriteId) override;
-	void DrawBounds(const BoundingBox& p_boundingBox) override;
+	void DrawBounds(const AABBBoundingBox& p_boundingBox, bool p_red) override;
 private:
 	// Inherited via IGraphics
 	void TryLoadErrorTexture() override;

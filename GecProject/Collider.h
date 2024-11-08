@@ -1,41 +1,53 @@
 #pragma once
-#include "BoundingBox.h"
+#include "AABBBoundingBox.h"
 #include "CollisionLayers.h"
 #include "CollisionListener.h"
 #include "Component.h"
+#include "Physics.hpp"
+
 class Collider : public Component
 {
 private:
-	int Bitmask = 0;
-	BoundingBox ColliderBox;
+	bool IsStatic{false};
+	int CollisionLayer = 0;
+	AABBBoundingBox ColliderBox;
 	std::vector<CollisionListener*> CollisionEventListeners;
+
 	Transform* TransformComponent;
 public:
-
-	Collider(const int p_bitmask)
+	p2d::RectangleBody ColliderBox2;
+	bool Overlapping{false};
+	Collider(const int p_collisionLayer, const bool p_static)
 	{
 		ColliderBox = {0,0,100,100};
-		Bitmask = p_bitmask;
+		CollisionLayer = p_collisionLayer;
+		IsStatic = p_static;
 	}
 
-	Collider(const BoundingBox& p_boundingBox, const int p_bitmask)
+	Collider(const AABBBoundingBox& p_boundingBox, const int p_collisionLayer, const bool p_static)
 	{
 		ColliderBox = p_boundingBox;
-		Bitmask = p_bitmask;
+		CollisionLayer = p_collisionLayer;
+		IsStatic = p_static;
 	}
 
-	const BoundingBox& GetCollisionBounds() const
+	const AABBBoundingBox& GetCollisionBounds() const
 	{
 		return ColliderBox;
 	}
 
 
-	int GetBitMask() const
+	int GetCollisionLayer() const
 	{
-		return Bitmask;
+		return CollisionLayer;
 	}
 
-	void CheckCollision(const Collider& p_otherCollider) const;
+	bool GetIsStatic() const
+	{
+		return IsStatic;
+	}
+
+
 
 	void AddListener(CollisionListener* p_collisionListener);
 	void Start() override;
@@ -43,8 +55,6 @@ public:
 	void Render() override;
 
 	void CalculateBoundsFromSprite();
-	private:
-
-		void NotifyListeners(const CollisionEvent& p_collisionEvent) const;
+	void NotifyListeners(const CollisionEvent& p_collisionEvent) const;
 };
 

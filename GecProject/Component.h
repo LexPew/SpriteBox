@@ -32,7 +32,10 @@ public:
 		}
 		return type;
 	}
-
+	GameObject* GetOwner() const
+	{
+		return Owner;
+	}
 	/**
 	 * Sets the game-object owner of this component
 	 * @param p_gameObject Game-object that owns this component

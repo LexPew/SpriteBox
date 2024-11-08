@@ -59,17 +59,21 @@ Vector2 SFMLGraphics::CalculateBounds(const Sprite& p_spriteId)
 
 }
 
-void SFMLGraphics::DrawBounds(const BoundingBox& p_boundingBox)
+void SFMLGraphics::DrawBounds(const AABBBoundingBox& p_boundingBox, bool p_red)
 {
-	if(DebugShowBoundingBoxes)
+	if (DebugShowBoundingBoxes)
 	{
-		BoundSprite.setTextureRect({ (int)p_boundingBox.Left, (int)p_boundingBox.Top
-		, (int)p_boundingBox.Width, (int)p_boundingBox.Height });
+		// Set semi-transparent colors directly
+		sf::Color color = p_red ? sf::Color(255, 0,0,50) : sf::Color(0, 255, 0, 50);
+
+		BoundSprite.setColor(color);
+
+		BoundSprite.setTextureRect({ (int)p_boundingBox.Left, (int)p_boundingBox.Top,
+									 (int)p_boundingBox.Width, (int)p_boundingBox.Height });
 		BoundSprite.setPosition(p_boundingBox.Left, p_boundingBox.Top);
 
 		renderWindow->draw(BoundSprite);
 	}
-
 }
 
 //Tries to load the error texture

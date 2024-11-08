@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include "BoundingBox.h"
+#include "AABBBoundingBox.h"
 #include "Vector2.h"
 
 struct Sprite
@@ -9,7 +9,7 @@ struct Sprite
 	std::string SpriteId{"Null"};
 
 	int SpriteSheetRows{ 0 };
-	BoundingBox SpriteBounds{ 0,0,0,0 };
+	AABBBoundingBox SpriteBounds{ 0,0,0,0 };
 
 	Sprite() = default;
 

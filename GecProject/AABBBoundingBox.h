@@ -4,7 +4,7 @@
 
 #include "Vector2.h"
 
-class BoundingBox
+class AABBBoundingBox
 {
 
 
@@ -23,12 +23,12 @@ public:
 
 	float Width{ 0 };
 	float Height{ 0 };
-	BoundingBox() = default;
+	AABBBoundingBox() = default;
 
 	/**
 	 * Creates a new bounding box with the input dimensions
 	 */
-	BoundingBox(const float p_top, const float p_left, const float p_bottom, const float p_right)
+	AABBBoundingBox(const float p_top, const float p_left, const float p_bottom, const float p_right)
 	{
 		Top = p_top;
 		Left = p_left;
@@ -71,7 +71,7 @@ public:
 		return {Top,Left};
 	}
 
-	bool Intersects(const BoundingBox& p_otherBox) const
+	bool Intersects(const AABBBoundingBox& p_otherBox) const
 	{
 		if(Left > p_otherBox.Right)
 		{

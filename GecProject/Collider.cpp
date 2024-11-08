@@ -11,6 +11,8 @@ void Collider::Start()
 	{
 		CalculateBoundsFromSprite();
 	}
+	ColliderBox.SetPosition(TransformComponent->GetPosition());
+	ColliderBox2 = { ColliderBox.Width, ColliderBox.Height, TransformComponent->GetPosition().X, TransformComponent->GetPosition().Y, 10, true, IsStatic };
 
 }
 
@@ -18,49 +20,36 @@ void Collider::CalculateBoundsFromSprite()
 {
 	const Sprite& sprite = Owner->GetComponent<SpriteRenderer>()->GetSprite();
 
-	Vector2 bounds = IGraphics::GraphicsHandlerInstance->CalculateBounds(sprite);
+	const Vector2 bounds = IGraphics::GraphicsHandlerInstance->CalculateBounds(sprite);
 
-	Transform* TransformComp = Owner->GetComponent<Transform>();
-
-	float x = TransformComp->GetPosition().X;
-	float y = TransformComp->GetPosition().Y;
+	float x = TransformComponent->GetPosition().X;
+	float y = TransformComponent->GetPosition().Y;
 	float x2 = bounds.X + x;
 	float y2 = bounds.Y + y;
 	ColliderBox = { y, x, y2, x2 };
 }
 
-void Collider::CheckCollision(const Collider& p_otherCollider) const
-{
-	//This is where we check for collision with another collider
-	//First check we can collide via collision layer
-
-	if(GetBitMask() & p_otherCollider.GetBitMask())
-	{
-		//We are on the same collision layer so check for collisions
-
-	}
-	NotifyListeners({ nullptr, p_otherCollider.GetCollisionBounds() });
-
-}
-
-void Collider::AddListener(CollisionListener* p_collisionListener)
-{	
-	CollisionEventListeners.push_back(p_collisionListener);
-}
 
 
 
 void Collider::Update(const float p_deltaTime)
 {
+	TransformComponent->SetPosition({ ColliderBox2.getPosition().x, ColliderBox2.getPosition().y });
 	ColliderBox.SetPosition(TransformComponent->GetPosition());
 }
 
+
 void Collider::Render()
 {
-	IGraphics::GraphicsHandlerInstance->DrawBounds(ColliderBox);
+	IGraphics::GraphicsHandlerInstance->DrawBounds(ColliderBox, Overlapping);
 }
 
 
+//Events
+void Collider::AddListener(CollisionListener* p_collisionListener)
+{
+	CollisionEventListeners.push_back(p_collisionListener);
+}
 void Collider::NotifyListeners(const CollisionEvent& p_collisionEvent) const
 {
 	for (const auto listener : CollisionEventListeners)

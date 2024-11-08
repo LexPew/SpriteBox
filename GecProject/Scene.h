@@ -1,36 +1,49 @@
 #pragma once
-#include "BoundingBox.h"
+#include "AABBBoundingBox.h"
 #include "GameObject.h"
-#include "Physics.h"
+#include "Physics.hpp"
+#include "CollisionSystem.h"
 //Scene saves all gameobejcts and handles updating them, and removing them
 
 
 class Scene 
 {
 private:
-	std::vector<GameObject*> gameObjects; //Vector of all gameobjects in the scene
+	std::vector<GameObject*> GameObjects; //Vector of all gameobjects in the scene
+	CollisionSystem* CollisionsSystem;
+	p2d::Physics* Physics;
 	bool HasStarted{ false }; 
 public:
 	Scene()
 	{
 		Start();
+		CollisionsSystem = new CollisionSystem;
+		Physics = new p2d::Physics;
 	}
 
-	void AddGameObject(GameObject* gameObject)
+	void AddGameObject(GameObject* p_gameObject)
 	{
-		gameObjects.push_back(gameObject);
+		GameObjects.push_back(p_gameObject);
+
+		//If the game-object has a collider component add it to the collision system
+		Collider* collider = p_gameObject->GetComponent<Collider>();
+		if(collider != nullptr)
+		{
+			CollisionsSystem->AddCollider(collider);
+			Physics->add(&collider->ColliderBox2);
+		}
 		if(HasStarted)
 		{
-			gameObject->Start();
+			p_gameObject->Start();
 		}
 	}
 	const std::vector<GameObject*>& GetGameObjects()
 	{
-		return gameObjects;
+		return GameObjects;
 	}
 	void Start()
 	{
-		for (GameObject* gameObject : gameObjects)
+		for (GameObject* gameObject : GameObjects)
 		{
 			gameObject->Start();
 		}
@@ -38,53 +51,19 @@ public:
 	};
 	void Update(float p_deltaTime) const
 	{
-		for (size_t i = 0; i < gameObjects.size(); i++)
-		{
-			GameObject* gameObject1 = gameObjects[i];
-			Collider* collider1 = gameObject1->GetComponent<Collider>();
-
-			//If game-object doesn't have a box collider skip it
-			if (!collider1)
-			{
-				continue;
-			}
-			for (size_t j = i + 1; j < gameObjects.size(); j++)
-			{
-
-				GameObject* gameObject2 = gameObjects[j];
-
-				Collider* collider2 = gameObject2->GetComponent<Collider>();
-
-				//If game-object doesn't have a box collider skip it
-				if (!collider2)
-				{
-					continue;
-				}
-				//Compare their bitmasks to see if they should collide before running intersection
-				if(collider1->GetBitMask() & collider2->GetBitMask())
-				{
-					// Check if the colliders are intersecting
-					if (collider1->GetCollisionBounds().Intersects(collider2->GetCollisionBounds()))
-					{
-						collider1->OnCollide(collider2->GetCollisionBounds());
-						collider2->OnCollide(collider1->GetCollisionBounds());
-					}
-				}
-	
-			}
-		 gameObject1->Update(p_deltaTime);
-		 }
-
-		for (GameObject* gameObject : gameObjects)
+		CollisionsSystem->Update();
+		for (GameObject* gameObject : GameObjects)
 		{
 			gameObject->Update(p_deltaTime);
 		}
+		Physics->update(p_deltaTime);
+
 	}
 
 
 	void Render() const
 	{
-		for (GameObject* gameObject : gameObjects)
+		for (GameObject* gameObject : GameObjects)
 		{
 			gameObject->Render();
 		}
@@ -92,11 +71,12 @@ public:
 
 	void Cleanup() 
 	{
-		for (GameObject* gameObject : gameObjects)
+		delete CollisionsSystem;
+		for (GameObject* gameObject : GameObjects)
 		{
 			delete gameObject;
 		}
-		gameObjects.clear();
+		GameObjects.clear();
 	};
 };
 
