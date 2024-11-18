@@ -32,7 +32,7 @@ void Game::Start()
         }
 
         obj->AttachComponent(new Collider(CollisionLayer::CollisionLayers::Default));
-        obj->AttachComponent(new Physics());
+        obj->AttachComponent(new Rigidbody());
         if (i == 1) {
             obj->AttachComponent(new CharacterController());
         }

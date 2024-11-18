@@ -1,7 +1,7 @@
 #pragma once
 #include "BoundingBox.h"
 #include "GameObject.h"
-#include "Physics.h"
+#include "Rigidbody.h"
 //Scene saves all gameobejcts and handles updating them, and removing them
 
 

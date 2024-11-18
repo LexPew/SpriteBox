@@ -152,7 +152,7 @@
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PerformanceMetrics.cpp" />
-    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RedirectCout.h" />
     <ClCompile Include="Scene.cpp" />
@@ -175,7 +175,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="PerformanceMetrics.h" />
-    <ClInclude Include="Physics.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />

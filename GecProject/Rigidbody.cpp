@@ -1,17 +1,17 @@
-#include "Physics.h"
+#include "Rigidbody.h"
 
 #include "GameObject.h"
 #include "IGraphics.h"
 #include "SpriteRenderer.h"
 
-void Physics::Start()
+void Rigidbody::Start()
 {
     TransformComp = Owner->GetComponent<Transform>();
     PhysicsCollider = Owner->GetComponent<Collider>();
     PhysicsCollider->AddListener(this);
 }
 
-void Physics::Update(float p_deltaTime)
+void Rigidbody::Update(float p_deltaTime)
 {
     Velocity.Y -= Gravity * p_deltaTime;
 
@@ -20,12 +20,12 @@ void Physics::Update(float p_deltaTime)
 
 }
 
-void Physics::Render()
+void Rigidbody::Render()
 {
     //IGraphics::GraphicsHandlerInstance->DrawBounds(SpriteBounds);
 }
 
-void Physics::OnCollision(const CollisionEvent& p_collisionEvent)
+void Rigidbody::OnCollision(const CollisionEvent& p_collisionEvent)
 {
 
     const BoundingBox otherBoundingBox = p_collisionEvent.OtherBoundingBox;

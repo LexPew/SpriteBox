@@ -1,14 +1,14 @@
 #pragma once
 #include "Component.h"
 #include "SFML/Graphics.hpp"
-#include "Physics.h"
+#include "Rigidbody.h"
 class CharacterController : public Component
 {
 	float baseMovementSpeed = 10.0f;
-	Physics* physics{ nullptr };
+	Rigidbody* physics{ nullptr };
 	void Start() override
 	{
-		physics = Owner->GetComponent<Physics>();
+		physics = Owner->GetComponent<Rigidbody>();
 	}
 	void Update(const float p_deltaTime) override
 	{

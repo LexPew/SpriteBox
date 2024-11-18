@@ -123,10 +123,10 @@ void EditorGui::DisplayPropertiesGui() const
 								spriteComp->SetSpeed(animationMultiplierSpeed);
 							}
 						}
-						else if (type == "Physics")
+						else if (type == "Rigidbody")
 						{
 							//Const as we are just grabbing xPos and yPos then assigning them to editable integers
-							Physics* physicsComp = dynamic_cast<Physics*>(comp);
+							Rigidbody* physicsComp = dynamic_cast<Rigidbody*>(comp);
 							const float xVelocity = physicsComp->GetVelocity().X;
 							const float yVelocity = physicsComp->GetVelocity().Y;
 
