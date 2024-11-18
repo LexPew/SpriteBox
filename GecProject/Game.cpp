@@ -5,6 +5,7 @@
 
 #include "CollisionLayers.h"
 #include "SpriteRenderer.h"
+#include "CharacterController.h"
 
 
 void Game::Start()
@@ -23,17 +24,26 @@ void Game::Start()
         std::string name = "GameObj" + std::to_string(i);
         GameObject* obj = new GameObject(name);
         obj->GetComponent<Transform>()->SetPosition(Vector2(i * 500.0f, 0));
-        obj->AttachComponent(new SpriteRenderer(Sprite("A.png", 1), GraphicsHandler));
+        if (i == 1) {
+            obj->AttachComponent(new SpriteRenderer(Sprite("Attack.png", 8), GraphicsHandler));
+        }
+        else {
+            obj->AttachComponent(new SpriteRenderer(Sprite("A.png", 1), GraphicsHandler));
+        }
+
         obj->AttachComponent(new Collider(CollisionLayer::CollisionLayers::Default));
         obj->AttachComponent(new Physics());
-
+        if (i == 1) {
+            obj->AttachComponent(new CharacterController());
+        }
+   
         CurrentlyLoadedScene->AddGameObject((obj));
     }
 
-    GameObject* obj = new GameObject("Floor");
-    obj->GetComponent<Transform>()->SetPosition({ 0,500 });
-    obj->AttachComponent(new Collider({ 0,0,100,1920 }, CollisionLayer::Default));
-    CurrentlyLoadedScene->AddGameObject(obj);
+    //GameObject* obj = new GameObject("Floor");
+    //obj->GetComponent<Transform>()->SetPosition({ 0,500 });
+    //obj->AttachComponent(new Collider({ 0,0,100,1920 }, CollisionLayer::Default));
+    //CurrentlyLoadedScene->AddGameObject(obj);
 	Loop();
 }
 

@@ -66,8 +66,8 @@ public:
 					// Check if the colliders are intersecting
 					if (collider1->GetCollisionBounds().Intersects(collider2->GetCollisionBounds()))
 					{
-						collider1->OnCollide(collider2->GetCollisionBounds());
-						collider2->OnCollide(collider1->GetCollisionBounds());
+						collider1->CheckCollision(*collider2);
+						collider2->CheckCollision(*collider1);
 					}
 				}
 	
