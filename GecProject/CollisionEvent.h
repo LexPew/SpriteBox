@@ -6,5 +6,6 @@ struct CollisionEvent
 {
 	GameObject* OtherGameObject;
 	AABBBoundingBox OtherBoundingBox;
+	float 
 };
 
