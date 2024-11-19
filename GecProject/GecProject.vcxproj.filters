@@ -57,9 +57,6 @@
     <ClCompile Include="RedirectCout.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rectangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextureUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,16 +87,16 @@
     <ClCompile Include="EditorGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -109,9 +106,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Header Files\Maths</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Header Files\Gameobject\Components</Filter>
@@ -130,9 +124,6 @@
     </ClInclude>
     <ClInclude Include="IGraphics.h">
       <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="BoundingBox.h">
-      <Filter>Header Files\Maths</Filter>
     </ClInclude>
     <ClInclude Include="Rectangle.h">
       <Filter>Header Files\Maths</Filter>
@@ -155,9 +146,6 @@
     <ClInclude Include="CollisionLayers.h">
       <Filter>Header Files\Physics &amp; Collisions</Filter>
     </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Header Files\Physics &amp; Collisions</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Header Files\Physics &amp; Collisions</Filter>
     </ClInclude>
@@ -168,6 +156,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,13 +1,14 @@
 #pragma once
-#include "BoundingBox.h"
+
 #include "CollisionLayers.h"
 #include "CollisionListener.h"
 #include "Component.h"
+
 class Collider : public Component
 {
 private:
 	int Bitmask = 0;
-	BoundingBox ColliderBox;
+	Rect ColliderBox;
 	std::vector<CollisionListener*> CollisionEventListeners;
 	Transform* TransformComponent;
 public:
@@ -18,13 +19,13 @@ public:
 		Bitmask = p_bitmask;
 	}
 
-	Collider(const BoundingBox& p_boundingBox, const int p_bitmask)
+	Collider(const Rect& p_boundingBox, const int p_bitmask)
 	{
 		ColliderBox = p_boundingBox;
 		Bitmask = p_bitmask;
 	}
 
-	const BoundingBox& GetCollisionBounds() const
+	const Rect& GetCollisionBounds() const
 	{
 		return ColliderBox;
 	}

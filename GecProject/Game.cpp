@@ -30,20 +30,14 @@ void Game::Start()
         else {
             obj->AttachComponent(new SpriteRenderer(Sprite("A.png", 1), GraphicsHandler));
         }
-
-        obj->AttachComponent(new Collider(CollisionLayer::CollisionLayers::Default));
-        obj->AttachComponent(new Rigidbody());
-        if (i == 1) {
-            obj->AttachComponent(new CharacterController());
-        }
-   
+        obj->AttachComponent(new PhysicsBody(obj->GetComponent<Transform>()->GetPosition(), { 0,0 }, { 0,9.81f }, 100, 100,100));
         CurrentlyLoadedScene->AddGameObject((obj));
     }
 
-    //GameObject* obj = new GameObject("Floor");
-    //obj->GetComponent<Transform>()->SetPosition({ 0,500 });
-    //obj->AttachComponent(new Collider({ 0,0,100,1920 }, CollisionLayer::Default));
-    //CurrentlyLoadedScene->AddGameObject(obj);
+    GameObject* obj = new GameObject("Floor");
+    obj->GetComponent<Transform>()->SetPosition({ 0,500 });
+    obj->AttachComponent(new PhysicsBody(obj->GetComponent<Transform>()->GetPosition(), { 0,0 }, { 0,0 }, 0, 1000, 10));
+    CurrentlyLoadedScene->AddGameObject(obj);
 	Loop();
 }
 

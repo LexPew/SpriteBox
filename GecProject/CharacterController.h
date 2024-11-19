@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "GameObject.h"
 #include "SFML/Graphics.hpp"
 #include "Rigidbody.h"
 class CharacterController : public Component

@@ -1,6 +1,8 @@
 #pragma once
-#include "BoundingBox.h"
+#include "Rect.h"
 #include "GameObject.h"
+#include "PhysicsBody.h"
+#include "PhysicsEngine.h"
 #include "Rigidbody.h"
 //Scene saves all gameobejcts and handles updating them, and removing them
 
@@ -8,8 +10,12 @@
 class Scene 
 {
 private:
+	//Physics
+	PhysicsEngine *PEngine = new PhysicsEngine;
+
 	std::vector<GameObject*> gameObjects; //Vector of all gameobjects in the scene
-	bool HasStarted{ false }; 
+	bool HasStarted{ false };
+
 public:
 	Scene()
 	{
@@ -23,6 +29,12 @@ public:
 		{
 			gameObject->Start();
 		}
+		PhysicsBody* physicsBody = gameObject->GetComponent<PhysicsBody>();
+		if(physicsBody != nullptr)
+		{
+			PEngine->AddRigidbody(physicsBody->PRigidBody);
+		}
+
 	}
 	const std::vector<GameObject*>& GetGameObjects()
 	{
@@ -38,7 +50,7 @@ public:
 	};
 	void Update(float p_deltaTime) const
 	{
-		for (size_t i = 0; i < gameObjects.size(); i++)
+		/*for (size_t i = 0; i < gameObjects.size(); i++)
 		{
 			GameObject* gameObject1 = gameObjects[i];
 			Collider* collider1 = gameObject1->GetComponent<Collider>();
@@ -70,15 +82,15 @@ public:
 						collider2->CheckCollision(*collider1);
 					}
 				}
-	
-			}
-		 gameObject1->Update(p_deltaTime);
-		 }
 
+			}*/
+
+		PEngine->Update(p_deltaTime);
 		for (GameObject* gameObject : gameObjects)
 		{
 			gameObject->Update(p_deltaTime);
 		}
+
 	}
 
 
@@ -92,6 +104,7 @@ public:
 
 	void Cleanup() 
 	{
+		delete PEngine;
 		for (GameObject* gameObject : gameObjects)
 		{
 			delete gameObject;

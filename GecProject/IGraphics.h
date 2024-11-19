@@ -44,7 +44,7 @@ public:
 	 */
 	virtual Vector2 CalculateBounds(const Sprite& p_spriteId) = 0;
 
-	virtual void DrawBounds(const BoundingBox& p_boundingBox) = 0;
+	virtual void DrawBounds(const Rect& p_boundingBox) = 0;
 
 	void ToggleDebugBounds()
 	{

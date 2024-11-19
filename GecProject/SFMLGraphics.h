@@ -41,7 +41,7 @@ public:
 	bool CreateSprite(const std::string& p_spriteId) override;
 	bool RenderSprite(const Sprite& p_sprite, const float p_xPosition, const float p_yPosition, const int p_frame) override;
 	Vector2 CalculateBounds(const Sprite& p_spriteId) override;
-	void DrawBounds(const BoundingBox& p_boundingBox) override;
+	void DrawBounds(const Rect& p_boundingBox) override;
 private:
 	// Inherited via IGraphics
 	void TryLoadErrorTexture() override;

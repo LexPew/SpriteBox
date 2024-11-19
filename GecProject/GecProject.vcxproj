@@ -106,14 +106,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>SFML\include;IMGUI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>SFML\include;$(SolutionDir);IMGUI\;C:\Users\James\source\repos\Impulse2D;JMath;C:\Users\James\source\repos\JMath</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>sfml-main-d.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-system-d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);opengl32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>SFML\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>SFML\lib;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>SFML\include;IMGUI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>SFML\include;$(SolutionDir);IMGUI\;C:\Users\James\source\repos\Impulse2D;;C:\Users\James\source\repos\JMath</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -137,7 +137,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -152,8 +151,7 @@
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PerformanceMetrics.cpp" />
-    <ClCompile Include="Rigidbody.cpp" />
-    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="RedirectCout.h" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SFMLGraphics.cpp" />
@@ -162,7 +160,6 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="CharacterController.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionEvent.h" />
@@ -175,7 +172,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="PerformanceMetrics.h" />
-    <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
@@ -184,10 +181,17 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextureUtil.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GecProject.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Impulse2D\Impulse2D.vcxproj">
+      <Project>{08c6f595-4822-4b23-846c-555dd42fdfa3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JMath\JMath.vcxproj">
+      <Project>{9e40e64a-664f-4b5a-8f52-c760e670d60c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

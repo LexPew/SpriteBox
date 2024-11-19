@@ -59,7 +59,7 @@ Vector2 SFMLGraphics::CalculateBounds(const Sprite& p_spriteId)
 
 }
 
-void SFMLGraphics::DrawBounds(const BoundingBox& p_boundingBox)
+void SFMLGraphics::DrawBounds(const Rect& p_boundingBox)
 {
 	if(DebugShowBoundingBoxes)
 	{
