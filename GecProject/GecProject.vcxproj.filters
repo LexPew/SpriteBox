@@ -34,6 +34,9 @@
     <Filter Include="Header Files\Physics &amp; Collisions">
       <UniqueIdentifier>{44c6d1eb-1dd5-40b9-87c9-df21a615b4f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\REFACTOREDENGINE">
+      <UniqueIdentifier>{88ce7f48-b24b-4493-becb-65d359732075}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,6 +102,9 @@
     <ClCompile Include="PhysicsBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalHeaders.h">
@@ -160,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="PhysicsBody.h">
       <Filter>Header Files\Gameobject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Header Files\REFACTOREDENGINE</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteData.h">
+      <Filter>Header Files\REFACTOREDENGINE</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
