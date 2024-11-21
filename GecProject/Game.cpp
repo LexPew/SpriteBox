@@ -18,26 +18,34 @@ void Game::Start()
     CurrentlyLoadedScene->Start();
 
 
+
     for (int i = 0; i < 3; i++)
     {
 
         std::string name = "GameObj" + std::to_string(i);
         GameObject* obj = new GameObject(name);
-        obj->GetComponent<Transform>()->SetPosition(Vector2(i * 500.0f, 0));
+        obj->GetComponent<Transform>()->SetPosition(Vector2(800 - (i * 500.0f), 0));
         if (i == 1) {
             obj->AttachComponent(new SpriteRenderer(Sprite("Attack.png", 8), GraphicsHandler));
+            obj->AttachComponent(new PhysicsBody(obj->GetComponent<Transform>()->GetPosition(), { 0,0 }, { 0,9.81f }, 100, Sprite("Attack.png", 8)));
         }
         else {
             obj->AttachComponent(new SpriteRenderer(Sprite("A.png", 1), GraphicsHandler));
+            obj->AttachComponent(new PhysicsBody(obj->GetComponent<Transform>()->GetPosition(), { 0,0 }, { 0,9.81f }, 100, Sprite("A.png", 1)));
         }
-        obj->AttachComponent(new PhysicsBody(obj->GetComponent<Transform>()->GetPosition(), { 0,0 }, { 0,9.81f }, 100, 100,100));
+        
+        if(i==1)
+        {
+            obj->AttachComponent(new CharacterController());
+        }
         CurrentlyLoadedScene->AddGameObject((obj));
     }
 
     GameObject* obj = new GameObject("Floor");
-    obj->GetComponent<Transform>()->SetPosition({ 0,500 });
-    obj->AttachComponent(new PhysicsBody(obj->GetComponent<Transform>()->GetPosition(), { 0,0 }, { 0,0 }, 0, 1000, 10));
+    obj->GetComponent<Transform>()->SetPosition({ 0,700 });
+    obj->AttachComponent(new PhysicsBody(obj->GetComponent<Transform>()->GetPosition(), { 0,0 }, { 0,0 }, 0, 1000, 100));
     CurrentlyLoadedScene->AddGameObject(obj);
+ 
 	Loop();
 }
 

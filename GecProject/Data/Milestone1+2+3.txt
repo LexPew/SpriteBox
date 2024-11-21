@@ -1,0 +1,73 @@
+James Munnis
+Milestone 1 <27/09/24>
+--------------------------------
+
+New Functionality
+-----------------
+
+-Playing Animations
+-Loading, unloading and displaying textures
+-Performance tracking, fps and fps graph
+
+Code Additions
+--------------
+
+-Animation (Handles playing animation on a target sprite)
+-Texture Utils (Handles all texture utility, loading, unloading and managing textures)
+-Performance Metrics (Handles calculating a smoothed fps and collecting samples for the fps graph)
+
+
+Tests
+-----
+
+-Can enter wrong file paths for the texture utils and it will handle them, by either displaying a error texture and displaying an error message box or if it cant
+grab error texture generate one from code. If all fails inform user to reinstall game.
+-Runs in both debug and release
+
+
+
+James Munnis
+Milestone 2+3 <18/11/2024>
+--------------------------------
+
+New Functionality
+-----------------
+
+-Custom Maths Library
+-Components and game objects
+-Collision Debug tools
+-Better sprite handling and animation
+-Scene system and loading
+-Better game framework via game class
+-Optional Collision events and listener 
+-Optional Collision layers
+-Other tweaks
+
+
+--Custom Physics Engine--
+Supports:
+-Particle Simulation
+-Force generators
+-Simple rigid body physics
+-AABB collision and resolution
+
+Code Additions
+--------------
+
+-GameObject(Holds all components associated with it and other func)
+-Component(Base class for all components to inherit from, contains Start,Update,Render)
+-TransformComp(Holds X,Y)
+-SpriteRenderComp(Renderers sprites and animas)
+-PhysicsBodyComp(Used as interface between the gameobject and physics engine)
+-Character Controller (Used to control a gameobject)
+-Vector(Has all functionality such as cross product, proper operator overloaded for multiple cases such as * being used for both scalar and dot product, etc)
+-EditorGui(Can show bounding boxes, list of gameobjects and edit their 
+-More smaller additions
+
+Tests
+-----
+
+-Cant add multiple of the same components to one gameobject
+-Physics engine handles multiple bodies colliding together and push against eachother
+-All works in both debug and release
+

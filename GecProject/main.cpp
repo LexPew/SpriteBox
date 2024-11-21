@@ -19,6 +19,7 @@ int main()
     //--Debug Section--
 
 	//Redirect cout to HAPI
+#ifdef DEBUG
     outbuf ob;
 
     std::streambuf* sb = std::cout.rdbuf(&ob);
@@ -27,9 +28,10 @@ int main()
     outbuferr oberr;
    std::streambuf* sberr = std::cerr.rdbuf(&oberr);
 
+
     // Turn on memory leak checking
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
+#endif
     //_CrtSetBreakAlloc(4052);
     Game newGame = Game();
     while(newGame.GetRunning())

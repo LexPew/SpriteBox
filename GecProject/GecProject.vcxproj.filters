@@ -125,9 +125,6 @@
     <ClInclude Include="IGraphics.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -159,10 +156,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CharacterController.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Gameobject\Components</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsBody.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Gameobject\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

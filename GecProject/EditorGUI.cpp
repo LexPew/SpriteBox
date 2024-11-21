@@ -123,12 +123,12 @@ void EditorGui::DisplayPropertiesGui() const
 								spriteComp->SetSpeed(animationMultiplierSpeed);
 							}
 						}
-						else if (type == "Rigidbody")
+						else if (type == "PhysicsBody")
 						{
 							//Const as we are just grabbing xPos and yPos then assigning them to editable integers
-							Rigidbody* physicsComp = dynamic_cast<Rigidbody*>(comp);
-							const float xVelocity = physicsComp->GetVelocity().X;
-							const float yVelocity = physicsComp->GetVelocity().Y;
+							PhysicsBody* physicsComp = dynamic_cast<PhysicsBody*>(comp);
+							const float xVelocity = physicsComp->PRigidBody->GetVelocity().X;
+							const float yVelocity = physicsComp->PRigidBody->GetVelocity().Y;
 
 							float xEditable = xVelocity;
 							float yEditable = yVelocity;
@@ -137,8 +137,17 @@ void EditorGui::DisplayPropertiesGui() const
 							ImGui::DragFloat("X Vel: ", &xEditable);
 							ImGui::DragFloat("Y Vel: ", &yEditable);
 
-							physicsComp->SetVelocity({ xEditable,yEditable });
+							physicsComp->PRigidBody->SetVelocity({ xEditable,yEditable });
 
+							ImGui::Text("Impulse: ");
+							static float xImpulse;
+							static float yImpulse;
+							ImGui::DragFloat("X Impulse: ", &xImpulse);
+							ImGui::DragFloat("Y Impulse: ", &yImpulse);
+							if(ImGui::Button("Apply Impulse"))
+							{
+								physicsComp->PRigidBody->AddForce({ xImpulse,yImpulse });
+							}
 						}
 						ImGui::PopStyleColor();
 

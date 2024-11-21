@@ -10,9 +10,9 @@ class Game
 {
 private:
 	//Essential Game Function Variables
-	sf::RenderWindow* Window;
-	IGraphics* GraphicsHandler;
-	EditorGui* DebugGui;
+	sf::RenderWindow* Window{nullptr};
+	IGraphics* GraphicsHandler{ nullptr };
+	EditorGui* DebugGui{nullptr};
 	bool Running{ false };
 
 
@@ -32,16 +32,13 @@ public:
 		// Set the game loop to run
 		Running = true;
 		// Create the render window via sfml
-		Window = new sf::RenderWindow(sf::VideoMode(800, 800), "Game Engine");
+		Window = new sf::RenderWindow(sf::VideoMode(1500, 1500), "Game Engine");
 		// Create the graphics handler (SFML, SDL, etc.)
 		GraphicsHandler = new SFMLGraphics(Window);
 
-	#ifndef NDEBUG
+
 		//Create the EditorGui
 		DebugGui = new EditorGui(Window, CurrentlyLoadedScene);
-	#endif
-
-
 		Start();
 	}
 	void Shutdown();
